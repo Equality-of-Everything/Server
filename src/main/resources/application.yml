@@ -1,1 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/Equality-of-Everything-DB
+    username: root
+    password: root
 
