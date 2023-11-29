@@ -1,8 +1,7 @@
 package com.eoe.controller;
 
-import com.eoe.dto.UserLoginDTO;
-import com.eoe.result.Result;
-import com.eoe.vo.UserLoginVO;
+import com.eoe.entity.UserLogin;
+import com.eoe.utils.JWTTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,16 +19,17 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = "用户相关接口")
 public class UserController {
 
-    @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO){
-        log.info("用户登录: {}", userLoginDTO);
-        String username = userLoginDTO.getUsername();
-        String password = userLoginDTO.getPassword();
+    @ApiOperation("用户登录")
+    public String login(@RequestBody UserLogin userLogin) {
+        System.out.println(userLogin.toString());
+        if (userLogin.getUsername().equals("admin") && userLogin.getPassword().equals("123456")) {
+            log.info("登录成功！生成token");
+            String token = JWTTokenUtil.generateToken(userLogin);
+            return token;
+        }
 
-
-
-
-
+        return "";
     }
+
 }
