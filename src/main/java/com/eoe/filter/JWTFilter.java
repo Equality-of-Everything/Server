@@ -3,6 +3,7 @@ package com.eoe.filter;
 import com.auth0.jwt.interfaces.Claim;
 import com.eoe.result.Result;
 import com.eoe.utils.JWTTokenUtil;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
@@ -38,15 +39,19 @@ public class JWTFilter implements Filter {
             response.setStatus(HttpServletResponse.SC_OK);
             filterChain.doFilter(request, response);
         } else {
+            Gson json = new Gson();
+            response.setContentType("application/json; charset=utf-8");
 
             if (token == null) {
-                response.getWriter().write("没有token！");
+                String resJson = json.toJson(new Result(false, "token不合法！", null));
+                response.getWriter().write(resJson);
                 return;
             }
 
             Map<String, Claim> userLoginData = JWTTokenUtil.verifyToken(token);
             if (userLoginData == null) {
-                response.getWriter().write("token不合法！");
+                String resJson = json.toJson(new Result(false, "token不合法！", null));
+                response.getWriter().write(resJson);
                 return;
             }
 

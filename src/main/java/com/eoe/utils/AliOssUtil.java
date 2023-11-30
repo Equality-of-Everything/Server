@@ -1,6 +1,7 @@
 package com.eoe.utils;
 
 
+
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
@@ -20,6 +21,12 @@ import java.io.ByteArrayInputStream;
 @Component
 @Configuration
 public class AliOssUtil {
+
+    // 最大图片文件大小位10MB
+    private static final int IMG_MAX_FILE_SIZE = 1024 * 1024 * 10; // 10MB
+
+    // 最大视频文件
+    private static final int VIED_MAX_FILE_SIZE   = 1024 * 1024 * 50; // 100MB
 
     private String endpoint;
     private String accessKeyId;
@@ -80,4 +87,31 @@ public class AliOssUtil {
 
         return stringBuilder.toString();
     }
+
+
+    /**
+     * 验证图片大小，最大不超过10MB
+     * @param bytes
+     * @return
+     */
+    public boolean verifyImageSzie(long bytes) {
+        if (bytes > IMG_MAX_FILE_SIZE) {
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * 验证视频大小，最大不超过100MB
+     * @param bytes
+     * @return
+     */
+    public boolean verifyVideoSize(long bytes) {
+        if (bytes > VIED_MAX_FILE_SIZE) {
+            return false;
+        }
+        return true;
+    }
+
 }
