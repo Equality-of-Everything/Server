@@ -14,4 +14,11 @@ public interface UserLoginService  {
     boolean register(UserLogin userLogin);
 
     boolean login(UserLogin userLogin);
+
+    /**
+     * 查询用户名是否存在
+     * @param username
+     * @return
+     */
+    boolean checkUsername(String username);
 }

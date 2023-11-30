@@ -39,4 +39,12 @@ public class UserLoginServiceImpl implements UserLoginService {
         UserLogin res = userLoginMapper.selectByUsernameAndPassword(userLogin.getUsername(), userLogin.getPassword());
         return res != null;
     }
+
+    @Override
+    public boolean checkUsername(String username) {
+        if (userLoginMapper.selectByUsername(username) != null) {
+            return true;
+        }
+        return false;
+    }
 }

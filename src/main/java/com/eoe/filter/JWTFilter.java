@@ -20,7 +20,7 @@ import java.util.Map;
  */
 
 @Slf4j
-@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*","/user/register"})
+@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*"})
 public class JWTFilter implements Filter {
 
     @Override
