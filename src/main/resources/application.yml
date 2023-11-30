@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/quality_of_everything?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/Equality-of-Everything-DB
     username: root
-    password: 123456
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 
@@ -12,3 +12,9 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+
+alioss:
+  endpoint: https://oss-cn-beijing.aliyuncs.com
+  access-key-id: LTAI5tQYyUVYWuiZUiwra5d4
+  access-key-secret: 7RBZ4i2ZPkOFWkPLO8pb3lKC94dcai
+  bucket-name: qiwusky
