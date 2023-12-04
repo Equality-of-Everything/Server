@@ -76,8 +76,15 @@ public class AliOssUtil {
                 .append("/")
                 .append(objectName);
 
-        log.info("文件上传到:{}", stringBuilder.toString());
+        String url = stringBuilder.toString();
+        //这里做的处理是将第二个http://去掉，不然地址不正确
+        int startIndex = url.indexOf("https://", "https://".length());
+        String modifiedUrl = url.substring(0, startIndex) + url.substring(startIndex + "https://".length());
 
-        return stringBuilder.toString();
+
+
+        log.info("文件上传到:{}", modifiedUrl);
+
+        return modifiedUrl;
     }
 }

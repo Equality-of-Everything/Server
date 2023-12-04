@@ -1,6 +1,7 @@
 package com.eoe.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class SecureController {
 
-    @RequestMapping("/secure/getUserInfo")
+    @GetMapping("/secure/getUserInfo")
     public String login(HttpServletRequest request) {
         String userName = request.getAttribute("username").toString();
         String password= request.getAttribute("password").toString();

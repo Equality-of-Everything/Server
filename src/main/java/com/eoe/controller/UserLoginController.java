@@ -26,6 +26,7 @@ public class UserLoginController {
     @PostMapping("/register")
     @ApiOperation("用户注册")
     public Result register(@RequestBody UserLogin userLogin) {
+        log.info("用户注册: {}", userLogin);
         boolean flag = userLoginService.register(userLogin);
         if(flag) return new Result(flag, "注册成功", null);
         return new Result(flag, "注册失败,用户名重复", null);
@@ -35,6 +36,7 @@ public class UserLoginController {
     @PostMapping("/login")
     @ApiOperation("用户登录")
     public Result login(@RequestBody UserLogin userLogin) {
+        log.info("用户登录: {}", userLogin);
         boolean flaglogin = userLoginService.login(userLogin);
         boolean flagcheckUserName = userLoginService.checkUsername(userLogin.getUsername());
         if(!flagcheckUserName) return new Result(flagcheckUserName, "用户名不存在", null, Code.LOGIN_ERROR_NOUSER);

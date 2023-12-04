@@ -79,6 +79,15 @@
             <artifactId>swagger-annotations</artifactId>
             <version>1.6.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <!--
+             有关swagger的依赖
+        -->
+
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

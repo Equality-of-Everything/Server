@@ -24,6 +24,7 @@ public class uploadfiletestController {
      private AliOssUtil aliOssUtil;
     @PostMapping("/upload")
     public Result uploadFile(@RequestParam  MultipartFile file) {
+        log.info("文件上传: {}", file.getOriginalFilename());
         try{
             //原始文件名
             String originalFilename = file.getOriginalFilename();
