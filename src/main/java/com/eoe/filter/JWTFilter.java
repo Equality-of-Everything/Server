@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.eoe.result.Code.TOKEN_INVALID;
+import static com.eoe.result.Code.TOKEN_NOT_EXIST;
+
 /**
  * @Author : Zhang
  * @Date : Created in 2023/11/28 21:09
@@ -21,7 +24,7 @@ import java.util.Map;
  */
 
 @Slf4j
-@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*"})
+@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*","/map/*"})
 public class JWTFilter implements Filter {
 
     @Override
@@ -43,14 +46,14 @@ public class JWTFilter implements Filter {
             response.setContentType("application/json; charset=utf-8");
 
             if (token == null) {
-                String resJson = json.toJson(new Result(false, "token不合法！", null));
+                String resJson = json.toJson(new Result(false, "token不存在！", null,TOKEN_NOT_EXIST));
                 response.getWriter().write(resJson);
                 return;
             }
 
             Map<String, Claim> userLoginData = JWTTokenUtil.verifyToken(token);
             if (userLoginData == null) {
-                String resJson = json.toJson(new Result(false, "token不合法！", null));
+                String resJson = json.toJson(new Result(false, "token不合法或已过期！", null,TOKEN_INVALID));
                 response.getWriter().write(resJson);
                 return;
             }

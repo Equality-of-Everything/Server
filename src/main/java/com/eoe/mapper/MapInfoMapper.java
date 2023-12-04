@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * @Author : Zhang
@@ -14,4 +15,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MapInfoMapper extends BaseMapper<MapInfo> {
 
+
+    @Select("select * from share_info where map_info_id in\n" +
+            "            (select share_info_id from map_info where place_name=#{placeName})")
+    ShareInfo getSourceByPlaceName(String placeName);
 }

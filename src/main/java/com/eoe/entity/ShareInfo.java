@@ -49,7 +49,7 @@ public class ShareInfo {
     @TableField("text")
     private String text;
 
-    // Type - 类型（区分视频和图文）
+    // Type - 类型（区分视频和图文）,1代表视频，0代表图文
     @TableField("type")
     private String type;
 
