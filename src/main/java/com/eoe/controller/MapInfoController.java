@@ -41,4 +41,15 @@ public class MapInfoController {
                 new Result(false, "本地视频为空", null,GET_VIDEO_EMPTY);
 
     }
+
+    @PostMapping("/insert")
+    @ApiOperation("插入视频信息")
+    public Result insertVideo(@RequestBody ShareInfo shareInfo) {
+        boolean flag = mapInfoService.insertVideo(shareInfo);
+        if (flag) {
+            return new Result(true, "插入视频信息成功", null,200);
+        } else {
+            return new Result(false, "插入视频信息失败", null,400);
+        }
+    }
 }

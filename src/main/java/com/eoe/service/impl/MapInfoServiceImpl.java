@@ -3,6 +3,7 @@ package com.eoe.service.impl;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
 import com.eoe.mapper.MapInfoMapper;
+import com.eoe.mapper.ShareInfoMapper;
 import com.eoe.service.MapInfoService;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,22 @@ public class MapInfoServiceImpl implements MapInfoService {
     @Autowired
     private MapInfoMapper mapInfoMapper;
 
+    @Autowired
+    private ShareInfoMapper shareInfoMapper;
+
     @Override
     public ShareInfo getSourceByPlaceName(MapInfo mapInfo) {
 
         ShareInfo res = mapInfoMapper.getSourceByPlaceName(mapInfo.getPlaceName());
 
         return res!=null ? res : null;
+    }
+
+    @Override
+    public boolean insertVideo(ShareInfo shareInfo) {
+        shareInfo.setUploadTime(new java.util.Date());
+        int res = shareInfoMapper.insert(shareInfo);
+        return res!=0? true : false;
+
     }
 }

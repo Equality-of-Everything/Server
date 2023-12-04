@@ -17,11 +17,11 @@ import java.util.UUID;
 @Slf4j
 public class UploadfiletestController {
 
-
     @Autowired
      private AliOssUtil aliOssUtil;
     @PostMapping("/image")
     public Result uploadFile(@RequestParam  MultipartFile file) {
+        log.info("上传文件");
         try {
             if (!aliOssUtil.verifyImageSzie(file.getSize())) {
                 return new Result(false, "文件大小超过限制", null);
@@ -42,7 +42,9 @@ public class UploadfiletestController {
 
             //文件的请求路径
             String filePath = aliOssUtil.upload(file.getBytes(), objectName);
+
             return new Result(true, "上传成功", filePath);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
