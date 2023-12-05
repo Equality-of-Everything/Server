@@ -1,4 +1,5 @@
 package com.eoe.entity;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,18 +15,43 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName("user_info")
 public class UserInfo {
+    @TableField("user_id")
     private int userId; // 用户ID
+
+    @TableField("username")
     private String username; // 用户名
+
+    @TableField("nickname")
     private String nickname; // 昵称
+
+    @TableField("avatar")
     private String avatar; // 头像
+
+    @TableField("gender")
     private String gender; // 性别
+
+    @TableField("status")
     private String status; // 状态
+
+    @TableField("signature")
     private String signature; // 个性签名
+
+    @TableField("birthday")
     private LocalDate birthday; // 生日
+
+    @TableField("last_modified_time")
     private LocalDateTime lastModifiedTime; // 最近修改时间
+
+    @TableField("address")
     private String address; // 地址
+
+    @TableField("share_info_id")
     private int shareInfoId; // 与图文与视频分享信息表关联的ID
+
+    @TableField("trajectory_id")
     private int trajectoryId; // 与轨迹表关联的ID
+
+    @TableField("friend_share_id")
     private int friendShareId; // 与好友动态分享关联的ID
 
     public UserInfo(int maxuserId) {

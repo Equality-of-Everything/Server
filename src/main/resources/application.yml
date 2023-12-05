@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/Equality-of-Everything-DB
     username: root
-    password: root
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
@@ -12,6 +12,16 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60s
+      key-prefix: mail_cache_
+  redis:
+    host: 192.168.48.158
+    port: 6379
+    password: 123456
+
 
 mybatis-plus:
   configuration:

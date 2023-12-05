@@ -36,7 +36,7 @@ public class MapInfoServiceImpl implements MapInfoService {
     public boolean insertVideo(ShareInfo shareInfo) {
         shareInfo.setUploadTime(new java.util.Date());
         int res = shareInfoMapper.insert(shareInfo);
-        return res!=0? true : false;
+        return res!=0;
 
     }
 }
