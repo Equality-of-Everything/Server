@@ -1,8 +1,10 @@
 package com.eoe.controller;
 
+import com.eoe.entity.UserInfo;
 import com.eoe.entity.UserLogin;
 import com.eoe.result.Code;
 import com.eoe.result.Result;
+import com.eoe.service.UserInfoService;
 import com.eoe.service.UserLoginService;
 import com.eoe.utils.JWTTokenUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +25,16 @@ public class UserLoginController {
     @Autowired
     private UserLoginService userLoginService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     @PostMapping("/register")
     @ApiOperation("用户注册")
     public Result register(@RequestBody UserLogin userLogin) {
         log.info("用户注册: {}", userLogin);
         boolean flag = userLoginService.register(userLogin);
+        int maxuserId = userInfoService.getMaxUserId();
+        boolean flag2 = userInfoService.setUserInfo(new UserInfo(maxuserId));
         if(flag) return new Result(flag, "注册成功", null);
         return new Result(flag, "注册失败,用户名重复", null);
     }
