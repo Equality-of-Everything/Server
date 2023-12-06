@@ -9,6 +9,7 @@ import com.eoe.service.UserLoginService;
 import com.eoe.utils.JWTTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,13 +31,26 @@ public class UserLoginController {
 
     @PostMapping("/register")
     @ApiOperation("用户注册")
+    @Transactional
     public Result register(@RequestBody UserLogin userLogin) {
-        log.info("用户注册: {}", userLogin);
-        boolean flag = userLoginService.register(userLogin);
-        int maxuserId = userInfoService.getMaxUserId();
-        boolean flag2 = userInfoService.setUserInfo(new UserInfo(maxuserId));
-        if(flag) return new Result(flag, "注册成功", null);
-        return new Result(flag, "注册失败,用户名重复", null);
+
+            log.info("用户注册: {}", userLogin);
+            boolean flagemail = userLoginService.checkEmail(userLogin.getEmail());
+            if(flagemail){
+                return new Result(flagemail, "邮箱已被注册", null);
+            }
+            boolean flag = userLoginService.register(userLogin);
+            //int i = 1 / 0;
+            if(!flag){
+                return new Result(flag, "注册失败,用户名重复", null);
+            }
+            Integer maxuserId = userInfoService.getMaxUserId();
+            boolean flag2 = userInfoService.setUserInfo(new UserInfo(maxuserId));
+            if(flag && flag2){
+                return new Result(flag, "注册成功", null);
+            }
+            return new Result(flag, "注册失败,个人页面信息初始化失败", null);
+
     }
 
 

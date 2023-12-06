@@ -43,13 +43,17 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     /**
      * 获取用户最大id
+     *
      * @return
      */
     @Override
     public int getMaxUserId() {
+        if(userInfoMapper.getMaxUserId() == null){
+            return 1;
+        }
         if(userInfoMapper.getMaxUserId() > 0){
             return userInfoMapper.getMaxUserId();
         }
-        return 0;
+        return 1;
     }
 }

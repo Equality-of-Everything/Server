@@ -2,12 +2,14 @@ package com.eoe.service;
 
 import com.eoe.entity.UserLogin;
 import com.eoe.mapper.UserLoginMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author : Zhang
  * @Date : Created in 2023/11/28 19:43
  * @Decription : 用户登录Service接口
  */
+
 
 public interface UserLoginService  {
 
@@ -21,4 +23,11 @@ public interface UserLoginService  {
      * @return
      */
     boolean checkUsername(String username);
+
+    /***
+     * 查询邮箱是否存在
+     * @param email
+     * @return
+     */
+    boolean checkEmail(String email);
 }

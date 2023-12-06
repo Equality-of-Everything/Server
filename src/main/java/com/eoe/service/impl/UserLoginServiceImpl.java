@@ -23,6 +23,11 @@ public class UserLoginServiceImpl implements UserLoginService {
     private UserLoginMapper userLoginMapper;
 
 
+    /**
+     * 注册
+     * @param userLogin
+     * @return
+     */
     @Override
     public boolean register(UserLogin userLogin) {
         if (userLoginMapper.selectByUsername(userLogin.getUsername())!= null) {
@@ -34,15 +39,38 @@ public class UserLoginServiceImpl implements UserLoginService {
         return userLoginMapper.insert(userLogin) > 0;
     }
 
+    /**
+     * 登录
+     * @param userLogin
+     * @return
+     */
     @Override
     public boolean login(UserLogin userLogin) {
         UserLogin res = userLoginMapper.selectByUsernameAndPassword(userLogin.getUsername(), userLogin.getPassword());
         return res != null;
     }
 
+    /**
+     * 查询用户名是否存在
+     * @param username
+     * @return
+     */
     @Override
     public boolean checkUsername(String username) {
         if (userLoginMapper.selectByUsername(username) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 查询邮箱是否存在
+     * @param email
+     * @return
+     */
+    @Override
+    public boolean checkEmail(String email) {
+        if (userLoginMapper.checkEmail(email) > 0) {
             return true;
         }
         return false;

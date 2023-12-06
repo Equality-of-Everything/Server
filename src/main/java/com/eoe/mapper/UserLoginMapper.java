@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.eoe.entity.UserLogin;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Author : Zhang
@@ -31,4 +32,12 @@ public interface UserLoginMapper extends BaseMapper<UserLogin> {
      */
     @Select("select * from user_login where username = #{username} and password = #{password}")
     UserLogin selectByUsernameAndPassword(String username, String password);
+
+    /**
+     * 查询邮箱是否存在
+     * @param email
+     * @return
+     */
+    @Select("select count(*) from user_login where email = #{email}")
+    int checkEmail(String email);
 }
