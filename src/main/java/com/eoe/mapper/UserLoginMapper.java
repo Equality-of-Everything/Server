@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.eoe.entity.UserLogin;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -34,10 +35,21 @@ public interface UserLoginMapper extends BaseMapper<UserLogin> {
     UserLogin selectByUsernameAndPassword(String username, String password);
 
     /**
+     * 根据邮箱重置密码
+     * @param mail
+     * @param password
+     * @return
+     */
+    @Update("update user_login set password=#{password} where email=#{mail}")
+    int resetPasswordByMail(String mail, String password);
+
+    /**
      * 查询邮箱是否存在
      * @param email
      * @return
      */
     @Select("select count(*) from user_login where email = #{email}")
     int checkEmail(String email);
+
+
 }

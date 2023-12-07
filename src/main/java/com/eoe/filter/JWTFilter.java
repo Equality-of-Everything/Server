@@ -24,7 +24,7 @@ import static com.eoe.result.Code.TOKEN_NOT_EXIST;
  */
 
 @Slf4j
-@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*","/map/*"})
+@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*"})
 public class JWTFilter implements Filter {
 
     @Override

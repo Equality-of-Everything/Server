@@ -57,10 +57,12 @@ public class UserLoginServiceImpl implements UserLoginService {
      */
     @Override
     public boolean checkUsername(String username) {
-        if (userLoginMapper.selectByUsername(username) != null) {
-            return true;
-        }
-        return false;
+        return userLoginMapper.selectByUsername(username) != null;
+    }
+
+    @Override
+    public boolean resetPasswordByMail(String mail, String password) {
+        return userLoginMapper.resetPasswordByMail(mail, password) > 0;
     }
 
     /**

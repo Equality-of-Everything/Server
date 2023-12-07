@@ -52,7 +52,7 @@ public class SendMailCodeController {
     public Result checkCode(String mail,String code) {
         if(mailCodeService.checkCode(mail,code)) return new Result(true,"验证码正确",null,200);
 
-        return new Result(false,"验证码错误",null,400);
+        return new Result(false,"验证码错误或已失效",null,400);
 
     }
 

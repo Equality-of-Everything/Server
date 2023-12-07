@@ -66,8 +66,24 @@ public class UserLoginController {
         return new Result(true, "登录成功", token);
     }
 
+    /**
+     * 用于通过邮箱重置密码
+     *
+     * @return
+     */
 
-
+    @PostMapping("/resetPassword")
+    @ApiOperation("邮箱重置密码")
+    public Result resetPassword(String mail, String password) {
+        try {
+            if (userLoginService.resetPasswordByMail(mail, password))
+                return new Result(true, "重置密码成功", null, 200);
+            return new Result(false, "该邮箱未注册用户，请先注册", null,400);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Result(false, "发生未知错误，请稍后重试", null);
+        }
+    }
 
 
 }
