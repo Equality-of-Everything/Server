@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.eoe.result.Code.GET_VIDEO_EMPTY;
 import static com.eoe.result.Code.GET_VIDEO_SUCCESS;
 
@@ -36,7 +38,7 @@ public class MapInfoController {
     @PostMapping("/video")
     @ApiOperation("获取地图背后视频信息")
     public Result getVideo(@RequestBody MapInfo mapInfo) {
-        ShareInfo res = mapInfoService.getSourceByPlaceName(mapInfo);
+        List<ShareInfo> res = mapInfoService.getSourceByPlaceName(mapInfo);
         return res != null? new Result(true, "获取视频信息成功", res,GET_VIDEO_SUCCESS) :
                 new Result(false, "本地视频为空", null,GET_VIDEO_EMPTY);
 

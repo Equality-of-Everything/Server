@@ -6,6 +6,9 @@ import com.eoe.entity.ShareInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Author : Zhang
  * @Date : Created in 2023/12/1 16:21
@@ -18,5 +21,5 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
 
     @Select("select * from share_info where map_info_id in\n" +
             "            (select share_info_id from map_info where place_name=#{placeName})")
-    ShareInfo getSourceByPlaceName(String placeName);
+    List<ShareInfo> getSourceByPlaceName(String placeName);
 }

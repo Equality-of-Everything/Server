@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @Author : Zhang
  * @Date : Created in 2023/12/4 14:29
@@ -25,9 +27,9 @@ public class MapInfoServiceImpl implements MapInfoService {
     private ShareInfoMapper shareInfoMapper;
 
     @Override
-    public ShareInfo getSourceByPlaceName(MapInfo mapInfo) {
+    public List<ShareInfo> getSourceByPlaceName(MapInfo mapInfo) {
 
-        ShareInfo res = mapInfoMapper.getSourceByPlaceName(mapInfo.getPlaceName());
+        List<ShareInfo> res = mapInfoMapper.getSourceByPlaceName(mapInfo.getPlaceName());
 
         return res!=null ? res : null;
     }

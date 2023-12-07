@@ -3,6 +3,8 @@ package com.eoe.service;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
 
+import java.util.List;
+
 /**
  * @Author : Zhang
  * @Date : Created in 2023/12/4 14:28
@@ -16,7 +18,7 @@ public interface MapInfoService {
      * @param mapInfo
      * @return
      */
-    ShareInfo getSourceByPlaceName(MapInfo mapInfo);
+    List<ShareInfo> getSourceByPlaceName(MapInfo mapInfo);
 
     /**
      * 插入视频或图文
