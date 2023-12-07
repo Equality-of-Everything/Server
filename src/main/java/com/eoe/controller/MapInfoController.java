@@ -39,7 +39,7 @@ public class MapInfoController {
     @ApiOperation("获取地图背后视频信息")
     public Result getVideo(@RequestBody MapInfo mapInfo) {
         List<ShareInfo> res = mapInfoService.getSourceByPlaceName(mapInfo);
-        return res != null? new Result(true, "获取视频信息成功", res,GET_VIDEO_SUCCESS) :
+        return res.size() != 0 ? new Result(true, "获取视频信息成功", res,GET_VIDEO_SUCCESS) :
                 new Result(false, "本地视频为空", null,GET_VIDEO_EMPTY);
 
     }

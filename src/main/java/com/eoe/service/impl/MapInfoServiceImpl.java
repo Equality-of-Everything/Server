@@ -31,7 +31,7 @@ public class MapInfoServiceImpl implements MapInfoService {
 
         List<ShareInfo> res = mapInfoMapper.getSourceByPlaceName(mapInfo.getPlaceName());
 
-        return res!=null ? res : null;
+        return res;
     }
 
     @Override
