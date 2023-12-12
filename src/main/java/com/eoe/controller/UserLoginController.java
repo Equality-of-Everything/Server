@@ -9,10 +9,13 @@ import com.eoe.service.UserLoginService;
 import com.eoe.utils.JWTTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户管理
@@ -28,6 +31,11 @@ public class UserLoginController {
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+    // 缓存SSO登录验证前缀
+    public static final String SSO_LOGIN_PREFIX = "sso_login_";
 
     @PostMapping("/register")
     @ApiOperation("用户注册")
@@ -63,6 +71,12 @@ public class UserLoginController {
         if(!flagcheckUserName) return new Result(flagcheckUserName, "用户名不存在", null, Code.LOGIN_ERROR_NOUSER);
         if(!flaglogin) return new Result(flaglogin, "登录失败", null, Code.LOGIN_ERROR_PASSWORD);
         String token = JWTTokenUtil.generateToken(userLogin);
+        // 把这个用户在缓存中的token删除掉
+        Object redisToken = redisTemplate.opsForValue().get(SSO_LOGIN_PREFIX + userLogin.getUsername());
+        if(redisToken!= null) redisTemplate.delete(SSO_LOGIN_PREFIX + userLogin.getUsername());
+        // 存入redis
+        redisTemplate.opsForValue().set(SSO_LOGIN_PREFIX+userLogin.getUsername(), token,10, TimeUnit.SECONDS);
+
         return new Result(true, "登录成功", token);
     }
 

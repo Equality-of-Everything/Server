@@ -5,6 +5,8 @@ import com.eoe.result.Result;
 import com.eoe.utils.JWTTokenUtil;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -13,8 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.eoe.result.Code.TOKEN_INVALID;
-import static com.eoe.result.Code.TOKEN_NOT_EXIST;
+import static com.eoe.controller.UserLoginController.SSO_LOGIN_PREFIX;
+import static com.eoe.result.Code.*;
 
 /**
  * @Author : Zhang
@@ -24,25 +26,30 @@ import static com.eoe.result.Code.TOKEN_NOT_EXIST;
  */
 
 @Slf4j
-@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*"})
+@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*","/map/*"})
 public class JWTFilter implements Filter {
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        Gson json = new Gson();
+
+
         response.setCharacterEncoding("UTF-8");
 
         // 获取 header 里面的Token
         final String token = request.getHeader("Authorization");
+
 
         // 除了 OPTIONS 请求，其他请求都必须携带 token
         if ("OPTIONS".equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
             filterChain.doFilter(request, response);
         } else {
-            Gson json = new Gson();
             response.setContentType("application/json; charset=utf-8");
 
             if (token == null) {
@@ -60,6 +67,15 @@ public class JWTFilter implements Filter {
 
             String userName = userLoginData.get("username").asString();
             String password = userLoginData.get("password").asString();
+
+            // redis 如果能取到，对比没有过期，放过。
+            String ssoToken = (String) redisTemplate.opsForValue().get(SSO_LOGIN_PREFIX + userName);
+            if (!token.equals(ssoToken)) {
+                String resJson = json.toJson(new Result(false, "用户已异地登陆！", null,TOKEN_OTHER_LOGIN));
+                response.getWriter().write(resJson);
+                return;
+            }
+
             // 将用户信息放到request中
             request.setAttribute("username", userName);
             request.setAttribute("password", password);

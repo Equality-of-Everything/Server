@@ -24,4 +24,7 @@ public class Code {
     // Token不合法或已过期
     public static final int TOKEN_INVALID = 402;
 
+    // 用户异地登录
+    public static final int TOKEN_OTHER_LOGIN = 403;
+
 }
