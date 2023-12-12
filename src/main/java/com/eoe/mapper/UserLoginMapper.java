@@ -51,5 +51,11 @@ public interface UserLoginMapper extends BaseMapper<UserLogin> {
     @Select("select count(*) from user_login where email = #{email}")
     int checkEmail(String email);
 
-
+    /**
+     * 根据用户名查找id
+     * @param userLogin
+     * @return
+     */
+    @Select("select user_id from user_login where username = #{username}")
+    Integer getUserIdByUsername(UserLogin userLogin);
 }

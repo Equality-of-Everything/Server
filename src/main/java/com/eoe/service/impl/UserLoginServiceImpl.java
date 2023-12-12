@@ -35,7 +35,7 @@ public class UserLoginServiceImpl implements UserLoginService {
         }
         userLogin.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
         userLogin.setAvatar("static/butter.jpg");
-        userLogin.setLoginErrorCount(0);
+         userLogin.setLoginErrorCount(0);
         return userLoginMapper.insert(userLogin) > 0;
     }
 
@@ -76,5 +76,16 @@ public class UserLoginServiceImpl implements UserLoginService {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 根据用户名获取用户id
+     * @param userLogin
+     * @return
+     */
+    @Override
+    public Integer getUserIdByUsername(UserLogin userLogin) {
+        Integer id = userLoginMapper.getUserIdByUsername(userLogin);
+        return id;
     }
 }

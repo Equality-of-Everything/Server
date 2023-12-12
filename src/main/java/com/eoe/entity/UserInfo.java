@@ -54,7 +54,7 @@ public class UserInfo {
     @TableField("friend_share_id")
     private int friendShareId; // 与好友动态分享关联的ID
 
-    public UserInfo(int maxuserId) {
-        this.userId = maxuserId + 1;
+    public UserInfo(int userId) {
+        this.userId = userId;
     }
 }

@@ -30,4 +30,11 @@ public interface UserLoginService  {
      * @return
      */
     boolean checkEmail(String email);
+
+    /**
+     * 根据用户名查询用户id
+     * @param userLogin
+     * @return
+     */
+    Integer getUserIdByUsername(UserLogin userLogin);
 }

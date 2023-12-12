@@ -21,4 +21,6 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
     @Select("select max(user_id) from user_info")
     Integer getMaxUserId();
+
+
 }

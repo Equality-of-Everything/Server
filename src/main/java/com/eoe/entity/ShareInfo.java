@@ -73,5 +73,8 @@ public class ShareInfo {
     @TableField("upload_time")
     private Date uploadTime;
 
+    //vr_image_url - vr地址
+    private String vrImageUrl;
+
 
 }

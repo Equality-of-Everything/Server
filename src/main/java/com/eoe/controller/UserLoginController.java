@@ -52,8 +52,9 @@ public class UserLoginController {
             if(!flag){
                 return new Result(flag, "注册失败,用户名重复", null);
             }
-            Integer maxuserId = userInfoService.getMaxUserId();
-            boolean flag2 = userInfoService.setUserInfo(new UserInfo(maxuserId));
+            //Integer maxuserId = userInfoService.getMaxUserId();
+            Integer userId = userLoginService.getUserIdByUsername(userLogin);
+            boolean flag2 = userInfoService.setUserInfo(new UserInfo(userId));
             if(flag && flag2){
                 return new Result(flag, "注册成功", null);
             }

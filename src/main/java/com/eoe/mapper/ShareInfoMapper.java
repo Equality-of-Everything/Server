@@ -15,6 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ShareInfoMapper extends BaseMapper<ShareInfo> {
 
 
-    @Insert("insert into share_info(IP,type,comment_id,tag_id,like_user_id,map_info_id,user_info_id,video_url,image_library_id,text,like_count,upload_time) values(#{ip},#{type},#{commentId},#{tagId},#{likeUserId},#{mapInfoId},#{userInfoId},#{videoUrl},#{imageLibraryId},#{text},#{likeCount},#{uploadTime})")
+    @Insert("insert into share_info(IP,type,comment_id,tag_id,like_user_id,map_info_id,user_info_id,video_url,image_library_id,text,like_count,upload_time,vr_image_url) values(#{ip},#{type},#{commentId},#{tagId},#{likeUserId},#{mapInfoId},#{userInfoId},#{videoUrl},#{imageLibraryId},#{text},#{likeCount},#{uploadTime},#{vrImageUrl})")
     int insert(ShareInfo shareInfo);
 }
