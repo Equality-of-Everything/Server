@@ -1,11 +1,17 @@
 package com.eoe.service.impl;
 
+import com.eoe.entity.UserInfo;
 import com.eoe.entity.UserLogin;
+import com.eoe.exception.RegisterFailException;
+import com.eoe.mapper.UserInfoMapper;
 import com.eoe.mapper.UserLoginMapper;
+import com.eoe.result.MessageConstant;
+import com.eoe.service.UserInfoService;
 import com.eoe.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -22,21 +28,36 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Autowired
     private UserLoginMapper userLoginMapper;
 
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+
+
 
     /**
      * 注册
      * @param userLogin
      * @return
+     * 注册成功的同时在UserInfo里面插入一条数据
      */
     @Override
-    public boolean register(UserLogin userLogin) {
-        if (userLoginMapper.selectByUsername(userLogin.getUsername())!= null) {
-            return false;
-        }
+    @Transactional
+    public boolean register(UserLogin userLogin)  {
+        if (userLoginMapper.selectByUsername(userLogin.getUsername())!= null)
+            throw new RegisterFailException(MessageConstant.UsernameAlreadyExist);
+
+        if (userLoginMapper.checkEmail(userLogin.getEmail()) > 0)
+            throw new RegisterFailException(MessageConstant.EmailAlreadyExist);
+
         userLogin.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
         userLogin.setAvatar("static/butter.jpg");
-         userLogin.setLoginErrorCount(0);
-        return userLoginMapper.insert(userLogin) > 0;
+        userLogin.setLoginErrorCount(0);
+
+        int resLogin = userLoginMapper.insert(userLogin);
+        Integer userId = userLoginMapper.getUserIdByUsername(userLogin);
+        int resInfo = userInfoMapper.insert(new UserInfo(userId, userLogin.getUsername(), userLogin.getAvatar()));
+        if (resLogin > 0 && resInfo > 0)  return true;
+
+        return false;
     }
 
     /**

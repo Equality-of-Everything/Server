@@ -33,7 +33,7 @@ public class JWTTokenUtil {
      * 过期时间
      * 单位：秒
      */
-    private static final long EXPIRATION = 10L;
+    private static final long EXPIRATION = 60L;
 
     /**
      * @param userLogin

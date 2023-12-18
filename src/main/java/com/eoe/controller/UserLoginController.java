@@ -3,6 +3,7 @@ package com.eoe.controller;
 import com.eoe.entity.UserInfo;
 import com.eoe.entity.UserLogin;
 import com.eoe.result.Code;
+import com.eoe.result.MessageConstant;
 import com.eoe.result.Result;
 import com.eoe.service.UserInfoService;
 import com.eoe.service.UserLoginService;
@@ -39,27 +40,11 @@ public class UserLoginController {
 
     @PostMapping("/register")
     @ApiOperation("用户注册")
-    @Transactional
     public Result register(@RequestBody UserLogin userLogin) {
-
-            log.info("用户注册: {}", userLogin);
-            boolean flagemail = userLoginService.checkEmail(userLogin.getEmail());
-            if(flagemail){
-                return new Result(flagemail, "邮箱已被注册", null);
-            }
-            boolean flag = userLoginService.register(userLogin);
-            //int i = 1 / 0;
-            if(!flag){
-                return new Result(flag, "注册失败,用户名重复", null);
-            }
-            //Integer maxuserId = userInfoService.getMaxUserId();
-            Integer userId = userLoginService.getUserIdByUsername(userLogin);
-            boolean flag2 = userInfoService.setUserInfo(new UserInfo(userId));
-            if(flag && flag2){
-                return new Result(flag, "注册成功", null);
-            }
-            return new Result(flag, "注册失败,个人页面信息初始化失败", null);
-
+        log.info("用户注册: {}", userLogin);
+        boolean res = userLoginService.register(userLogin);
+        if(res) return new Result(true, MessageConstant.SUCCESS, null);
+        return new Result(false, MessageConstant.EmailAlreadyExist, null);
     }
 
 
@@ -76,7 +61,7 @@ public class UserLoginController {
         Object redisToken = redisTemplate.opsForValue().get(SSO_LOGIN_PREFIX + userLogin.getUsername());
         if(redisToken!= null) redisTemplate.delete(SSO_LOGIN_PREFIX + userLogin.getUsername());
         // 存入redis
-        redisTemplate.opsForValue().set(SSO_LOGIN_PREFIX+userLogin.getUsername(), token,10, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(SSO_LOGIN_PREFIX+userLogin.getUsername(), token,60, TimeUnit.SECONDS);
 
         return new Result(true, "登录成功", token);
     }

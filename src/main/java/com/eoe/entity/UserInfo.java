@@ -1,5 +1,7 @@
 package com.eoe.entity;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName("user_info")
 public class UserInfo {
-    @TableField("user_id")
+    @TableId(type = IdType.INPUT)
     private int userId; // 用户ID
 
     @TableField("username")
@@ -56,5 +58,11 @@ public class UserInfo {
 
     public UserInfo(int userId) {
         this.userId = userId;
+    }
+
+    public UserInfo(int userId, String username, String avatar) {
+        this.userId = userId;
+        this.username = username;
+        this.avatar = avatar;
     }
 }

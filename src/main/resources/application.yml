@@ -31,6 +31,7 @@ mybatis-plus:
     db-config:
       id-type: auto
 
+
 alioss:
   endpoint: https://oss-cn-beijing.aliyuncs.com
   access-key-id: LTAI5tQYyUVYWuiZUiwra5d4
