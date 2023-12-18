@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -76,6 +77,4 @@ public class ShareInfo {
     //vr_image_url - vr地址
     @TableField("vr_image_url")
     private String vrImageUrl;
-
-
 }

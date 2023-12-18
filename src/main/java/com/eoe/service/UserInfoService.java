@@ -27,4 +27,6 @@ public interface UserInfoService {
      * @return
      */
     int getMaxUserId();
+
+
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/mail")
 @Slf4j
 @Api(tags = "发送邮箱验证码")
-public class SendMailCodeController {
+public class  SendMailCodeController {
 
     @Autowired
     private MailCodeService mailCodeService;
