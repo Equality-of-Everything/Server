@@ -58,4 +58,7 @@ public interface UserLoginMapper extends BaseMapper<UserLogin> {
      */
     @Select("select user_id from user_login where username = #{username}")
     Integer getUserIdByUsername(UserLogin userLogin);
+
+    @Update("update user_login set avatar = #{avatar} where username = #{username}")
+    Integer setUserAvatarByUsername(String username,String avatar);
 }

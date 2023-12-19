@@ -11,10 +11,13 @@ import com.eoe.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @Author : Zhang
@@ -51,9 +54,11 @@ public class UserLoginServiceImpl implements UserLoginService {
         userLogin.setRegistrationTime(new Timestamp(System.currentTimeMillis()));
         userLogin.setAvatar("static/butter.jpg");
         userLogin.setLoginErrorCount(0);
-
+        int userId = Objects.hash(UUID.randomUUID().toString());
+        userLogin.setUserId(userId);
         int resLogin = userLoginMapper.insert(userLogin);
-        Integer userId = userLoginMapper.getUserIdByUsername(userLogin);
+
+        //Integer userId = userLoginMapper.getUserIdByUsername(userLogin);
         int resInfo = userInfoMapper.insert(new UserInfo(userId, userLogin.getUsername(), userLogin.getAvatar()));
         if (resLogin > 0 && resInfo > 0)  return true;
 

@@ -23,10 +23,12 @@ public interface UserInfoService {
 
 
     /**
-     * 获取最大的用户id
+     * 通过用户名更新用户头像
+     * @param username
+     * @param avatar
      * @return
      */
-    int getMaxUserId();
+    boolean setUserAvatarByUsername(String username,String avatar);
 
 
 }

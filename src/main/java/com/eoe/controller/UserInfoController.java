@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Slf4j
-@RequestMapping("/userinfo")
+@RequestMapping("/userInfo")
 @Api(tags = "用户相关接口")
 public class UserInfoController {
 
@@ -48,20 +48,23 @@ public class UserInfoController {
 
     /**
      * 更新个人页面数据
-     * @param userInfo
+     * @param username
      * @return
+     * 只用于更新用户头像
      */
-    @PostMapping("/setUserInfo")
-    @ApiOperation("更新个人页面数据")
-    public Result setUserInfo(@RequestBody UserInfo userInfo, @RequestParam MultipartFile file){
+    @PostMapping("/setUserAvatar")
+    @ApiOperation("更新用户头像")
+    public Result setUserInfo(@RequestParam String username, @RequestParam MultipartFile file){
 
-        userInfo.setAvatar(uploadFileService.uploadFile(file));
-        boolean flag = userInfoService.setUserInfo(userInfo);
+        String avatar = uploadFileService.uploadFile(file);
+        boolean flag = userInfoService.setUserAvatarByUsername(username,avatar);
         if(flag){
             return new Result(true, "更新成功", null);
         }else{
             return new Result(false, "更新失败", null);
         }
     }
+
+
 
 }

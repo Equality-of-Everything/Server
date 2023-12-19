@@ -7,6 +7,7 @@ import com.eoe.entity.UserLogin;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * @Author : hsl
@@ -22,5 +23,14 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
     @Select("select max(user_id) from user_info")
     Integer getMaxUserId();
+
+    /**
+     * 根据用户名更新用户头像
+     * @param username
+     * @param avatar
+     * @return
+     */
+    @Update("update user_info set avatar = #{avatar} where username = #{username}")
+    Integer setUserAvatarByUsername(String username,String avatar);
 
 }

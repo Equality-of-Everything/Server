@@ -1,6 +1,7 @@
 package com.eoe.advice;
 
 import com.eoe.exception.RegisterFailException;
+import com.eoe.exception.UserInfoUpdateAvatarException;
 import com.eoe.result.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,6 +17,11 @@ public class ProjectExceptionAdvice {
 
     @ExceptionHandler(RegisterFailException.class)
     public Result handleRegisterFailException(RegisterFailException e) {
-        return new Result(false,e.getMsg(),null);
+        return new Result(false, e.getMsg(), null);
+    }
+
+    @ExceptionHandler(UserInfoUpdateAvatarException.class)
+    public Result handleUpdateAvatarException(UserInfoUpdateAvatarException e) {
+        return new Result(false, e.getMsg(), null);
     }
 }
