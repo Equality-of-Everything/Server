@@ -73,6 +73,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     @Override
     public boolean login(UserLogin userLogin) {
         UserLogin res = userLoginMapper.selectByUsernameAndPassword(userLogin.getUsername(), userLogin.getPassword());
+        userLoginMapper.setLastLoginDate(userLogin.getUsername(), new Timestamp(System.currentTimeMillis()));
         return res != null;
     }
 

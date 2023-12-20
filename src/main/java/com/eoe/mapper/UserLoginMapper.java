@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+
 /**
  * @Author : Zhang
  * @Date : Created in 2023/11/28 19:30
@@ -61,4 +63,7 @@ public interface UserLoginMapper extends BaseMapper<UserLogin> {
 
     @Update("update user_login set avatar = #{avatar} where username = #{username}")
     Integer setUserAvatarByUsername(String username,String avatar);
+
+    @Update("update user_login set last_login_date = #{timestamp} where username = #{username}")
+    void setLastLoginDate(String username, Timestamp timestamp);
 }

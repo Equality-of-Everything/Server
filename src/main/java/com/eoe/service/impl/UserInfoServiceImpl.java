@@ -3,12 +3,16 @@ package com.eoe.service.impl;
 import com.eoe.entity.UserInfo;
 import com.eoe.entity.UserLogin;
 import com.eoe.exception.UserInfoUpdateAvatarException;
+import com.eoe.exception.UserInfoUpdateException;
 import com.eoe.mapper.UserInfoMapper;
 import com.eoe.mapper.UserLoginMapper;
 import com.eoe.service.UserInfoService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
 
 /**
  * @Author : Zhang
@@ -41,12 +45,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
     }
 
-    @Override
-    public boolean setUserInfo(UserInfo userInfo) {
-        boolean flag = userInfoMapper.insert(userInfo) > 0;
-        return flag;
-    }
-
+    /**
+     * 更新用户信息
+     * @param userInfo
+     * @return
+     */
 
     /**
      * 通过用户名更新用户头像,用户信息表更新的同时，也更新用户登录表
@@ -63,5 +66,20 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         return userInfoMapper.setUserAvatarByUsername(username,avatar) > 0;
     }
+
+    /**
+     * 修改个人信息
+     * @param userInfo
+     * @return
+     */
+    @Override
+    public boolean updateById(UserInfo userInfo){
+        if(userInfoMapper.updateById(userInfo) <= 0){
+            throw new UserInfoUpdateException("更新用户信息失败");
+        }
+        userInfo.setLastModifiedTime(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
+        return userInfoMapper.updateById(userInfo) > 0;
+    }
+
 
 }

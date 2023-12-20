@@ -54,7 +54,7 @@ public class UserInfoController {
      */
     @PostMapping("/setUserAvatar")
     @ApiOperation("更新用户头像")
-    public Result setUserInfo(@RequestParam String username, @RequestParam MultipartFile file){
+    public Result setUserInfoAvatar(@RequestParam String username, @RequestParam MultipartFile file){
 
         String avatar = uploadFileService.uploadFile(file);
         boolean flag = userInfoService.setUserAvatarByUsername(username,avatar);
@@ -64,6 +64,23 @@ public class UserInfoController {
             return new Result(false, "更新失败", null);
         }
     }
+    /**
+     * 更新个人页面数据
+     * @param userInfo
+     * @return
+     * 只用于更新用户资料
+     */
+    @PostMapping("/setUserInformation")
+    @ApiOperation("更新用户资料")
+    public  Result updateUserInformation(@RequestBody UserInfo userInfo){
+        boolean flag = userInfoService.updateById(userInfo);
+        if(flag){
+            return new Result(true, "更新成功", null);
+        }else{
+            return new Result(false, "更新失败", null);
+        }
+    }
+
 
 
 

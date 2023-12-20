@@ -13,14 +13,6 @@ public interface UserInfoService {
      */
     UserInfo getUserInfo(UserLogin userLogin);
 
-    /**
-     * 更新个人页面数据
-     * @param userInfo
-     * @return
-     */
-
-    boolean setUserInfo(UserInfo userInfo);
-
 
     /**
      * 通过用户名更新用户头像
@@ -31,4 +23,10 @@ public interface UserInfoService {
     boolean setUserAvatarByUsername(String username,String avatar);
 
 
+    /**
+     * 更新个人信息
+     * @param userInfo
+     * @return
+     */
+    boolean updateById(UserInfo userInfo);
 }
