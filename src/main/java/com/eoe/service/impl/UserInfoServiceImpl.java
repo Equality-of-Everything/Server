@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLOutput;
 import java.sql.Timestamp;
 
 /**
@@ -73,12 +74,12 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @return
      */
     @Override
-    public boolean updateById(UserInfo userInfo){
-        if(userInfoMapper.updateById(userInfo) <= 0){
+    public boolean updateByName(UserInfo userInfo){
+        if(!userInfoMapper.updateByName(userInfo)){
             throw new UserInfoUpdateException("更新用户信息失败");
         }
-        userInfo.setLastModifiedTime(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
-        return userInfoMapper.updateById(userInfo) > 0;
+        userInfo.setLastModifiedTime(new Timestamp(System.currentTimeMillis()).toLocalDateTime().toString());
+        return userInfoMapper.updateByName(userInfo);
     }
 
 

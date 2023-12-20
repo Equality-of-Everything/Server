@@ -73,7 +73,7 @@ public class UserInfoController {
     @PostMapping("/setUserInformation")
     @ApiOperation("更新用户资料")
     public  Result updateUserInformation(@RequestBody UserInfo userInfo){
-        boolean flag = userInfoService.updateById(userInfo);
+        boolean flag = userInfoService.updateByName(userInfo);
         if(flag){
             return new Result(true, "更新成功", null);
         }else{

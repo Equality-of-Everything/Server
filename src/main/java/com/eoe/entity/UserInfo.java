@@ -39,10 +39,10 @@ public class UserInfo {
     private String signature; // 个性签名
 
     @TableField("birthday")
-    private LocalDate birthday; // 生日
+    private String birthday; // 生日
 
     @TableField("last_modified_time")
-    private LocalDateTime lastModifiedTime; // 最近修改时间
+    private String lastModifiedTime; // 最近修改时间
 
     @TableField("address")
     private String address; // 地址

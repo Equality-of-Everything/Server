@@ -28,5 +28,5 @@ public interface UserInfoService {
      * @param userInfo
      * @return
      */
-    boolean updateById(UserInfo userInfo);
+    boolean updateByName(UserInfo userInfo);
 }

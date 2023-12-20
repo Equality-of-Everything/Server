@@ -33,4 +33,11 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     @Update("update user_info set avatar = #{avatar} where username = #{username}")
     Integer setUserAvatarByUsername(String username,String avatar);
 
+    /**
+     * 根据用户名更新用户信息
+     * @param userInfo
+     * @return
+     */
+    @Update("update user_info set birthday = #{birthday}, gender = #{gender}, signature = #{signature}, email = #{email} where username = #{username}")
+    boolean updateByName(UserInfo userInfo);
 }
