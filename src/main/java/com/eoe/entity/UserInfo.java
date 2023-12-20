@@ -56,6 +56,10 @@ public class UserInfo {
     @TableField("friend_share_id")
     private int friendShareId; // 与好友动态分享关联的ID
 
+    // 邮箱
+    @TableField("email")
+    private String email;
+
     public UserInfo(int userId) {
         this.userId = userId;
     }

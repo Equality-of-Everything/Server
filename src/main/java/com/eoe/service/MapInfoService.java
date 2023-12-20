@@ -14,6 +14,14 @@ import java.util.List;
 public interface MapInfoService {
 
     /**
+     * 点赞视频或图文
+     * @param userId
+     * @param videoId
+     * @return
+     */
+    boolean likeVideo(int userId, int videoId);
+
+    /**
      * 根据地名获取视频或图文
      * @param mapInfo
      * @return

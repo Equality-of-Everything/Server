@@ -54,4 +54,21 @@ public class MapInfoController {
             return new Result(false, "插入视频信息失败", null,400);
         }
     }
+
+    /**
+     * 点赞操作
+     * @param videoId
+     * @param userId
+     * @return
+     */
+    @PostMapping("/videos/{videoId}/like")
+    public Result likeVideo(@PathVariable int videoId, @RequestParam int userId) {
+        boolean flag = mapInfoService.likeVideo(userId, videoId);
+        if (flag) {
+            return new Result(true, "点赞操作成功", null,200);
+        } else {
+            return new Result(false, "点赞操作失败", null,400);
+        }
+    }
 }
+
