@@ -141,4 +141,15 @@ public class MapInfoServiceImpl implements MapInfoService {
         if(res) return true;
         return false;
     }
+
+    /**
+     * 查看评论
+     * @param videoId
+     * @return
+     */
+    @Override
+    public List<Comment> getComment(int videoId) {
+        List<Comment> res = mapInfoMapper.getComment(videoId);
+        return res;
+    }
 }

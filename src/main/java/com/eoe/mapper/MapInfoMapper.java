@@ -73,4 +73,11 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
     @Select("select share_info_id from map_info where place_name=#{placeName}")
     Integer getShareInfoIdByPlaceName(String placeName);
 
+    /**
+     * 获取评论
+     * @param videoId
+     * @return
+     */
+    @Select("select * from comments where video_id=#{videoId}")
+    List<Comment> getComment(int videoId);
 }

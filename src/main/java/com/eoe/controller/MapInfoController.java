@@ -95,6 +95,12 @@ public class MapInfoController {
         }
     }
 
+    @GetMapping("/videos/getcomments")
+    public Result getComment(@RequestParam int videoId){
+        List<Comment> comments = mapInfoService.getComment(videoId);
+        return new Result(true, "查询成功", comments, 200);
+    }
+
 
 }
 

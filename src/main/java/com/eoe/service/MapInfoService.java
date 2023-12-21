@@ -50,4 +50,11 @@ public interface MapInfoService {
      * @return
      */
     boolean commentVideo(Comment comment);
+
+    /**
+     * 查看评论
+     * @param videoId
+     * @return
+     */
+    List<Comment> getComment(int videoId);
 }
