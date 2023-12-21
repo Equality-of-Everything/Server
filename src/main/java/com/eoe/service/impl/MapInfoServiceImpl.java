@@ -1,5 +1,6 @@
 package com.eoe.service.impl;
 
+import com.eoe.entity.Comment;
 import com.eoe.entity.Likes;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
@@ -20,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.Map;
 
 /**
  * @Author : Zhang
@@ -127,5 +129,16 @@ public class MapInfoServiceImpl implements MapInfoService {
         return res;
     }
 
-
+    /**
+     * 评论视频
+     * @param comment
+     * @return
+     */
+    @Override
+    public boolean commentVideo(Comment comment) {
+        comment.setCommentDate(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
+        boolean res = mapInfoMapper.commentVideo(comment);
+        if(res) return true;
+        return false;
+    }
 }

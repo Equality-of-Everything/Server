@@ -1,5 +1,6 @@
 package com.eoe.controller;
 
+import com.eoe.entity.Comment;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
 import com.eoe.result.Result;
@@ -68,13 +69,32 @@ public class MapInfoController {
         }
     }
 
+    /**
+     * 查询点赞数量
+     * @param videoId
+     * @return
+     */
     @GetMapping("/videos/{videoId}/likecount")
     public Result likeVideoCount(@PathVariable int videoId){
         int likecount = mapInfoService.likeVideoCount(videoId);
         return new Result(true, "查询成功", likecount, 200);
-
-
     }
+
+    /**
+     * 评论操作
+     * @param comment
+     * @return
+     */
+    @PostMapping("/videos/comment")
+    public Result commentVideo(@RequestBody Comment comment){
+        boolean flag = mapInfoService.commentVideo(comment);
+        if (flag) {
+            return new Result(true, "评论成功", null, 200);
+        }else {
+            return new Result(false, "评论失败", null, 400);
+        }
+    }
+
 
 }
 

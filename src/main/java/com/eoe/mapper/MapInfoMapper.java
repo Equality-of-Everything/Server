@@ -1,6 +1,7 @@
 package com.eoe.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.eoe.entity.Comment;
 import com.eoe.entity.Likes;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
@@ -19,6 +20,14 @@ import java.util.List;
 
 @Mapper
 public interface MapInfoMapper extends BaseMapper<MapInfo> {
+
+    /**
+     * 评论视频
+     * @param comment
+     * @return
+     */
+    @Insert("INSERT INTO comments(user_id,video_id,comment_text,comment_date) VALUES(#{userId},#{videoId},#{commentText},#{commentDate})")
+    boolean commentVideo(Comment comment);
 
     /**
      * 根据用户和视频id查询是否点赞

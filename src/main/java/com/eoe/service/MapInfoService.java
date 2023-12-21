@@ -1,5 +1,6 @@
 package com.eoe.service;
 
+import com.eoe.entity.Comment;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,4 +43,11 @@ public interface MapInfoService {
      * @return
      */
     int likeVideoCount(int videoId);
+
+    /**
+     * 评论视频或图文
+     * @param comment
+     * @return
+     */
+    boolean commentVideo(Comment comment);
 }
