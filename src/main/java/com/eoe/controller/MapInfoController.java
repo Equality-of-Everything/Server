@@ -70,5 +70,14 @@ public class MapInfoController {
             return new Result(false, "点赞操作失败", null,400);
         }
     }
+
+    @GetMapping("/videos/{videoId}/likecount")
+    public Result likeVideoCount(@PathVariable int videoId){
+        int likecount = mapInfoService.likeVideoCount(videoId);
+        return new Result(true, "查询成功", likecount, 200);
+
+
+    }
+
 }
 

@@ -34,4 +34,11 @@ public interface MapInfoService {
      * @return
      */
     boolean insertVideo(ShareInfo shareInfo);
+
+    /**
+     * 查询点赞数量
+     * @param videoId
+     * @return
+     */
+    int likeVideoCount(int videoId);
 }

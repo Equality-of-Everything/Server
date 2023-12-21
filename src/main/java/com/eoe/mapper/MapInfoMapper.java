@@ -47,4 +47,12 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
      */
     @Insert("INSERT INTO likes(user_id,video_id,is_liked,timestamp) VALUES(#{userId},#{videoId},#{isLiked},#{timestamp})")
     void insertLikes(Likes newLike);
+
+    /**
+     * 查询视频点赞数
+     * @param videoId
+     * @return
+     */
+    @Select("select count(*) from likes where video_id=#{videoId} and is_liked=1")
+    int likeVideoCount(int videoId);
 }

@@ -75,4 +75,16 @@ public class MapInfoServiceImpl implements MapInfoService {
         return res!=0;
 
     }
+
+    /**
+     * 查询点赞数量
+     * @param videoId
+     * @return
+     */
+    @Override
+    public int likeVideoCount(int videoId) {
+        int res = mapInfoMapper.likeVideoCount(videoId);
+        if(res < 0) throw new RuntimeException("查询点赞数量失败");
+        return res;
+    }
 }
