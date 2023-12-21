@@ -59,7 +59,7 @@ public class UserInfoController {
         String avatar = uploadFileService.uploadFile(file);
         boolean flag = userInfoService.setUserAvatarByUsername(username,avatar);
         if(flag){
-            return new Result(true, "更新成功", null);
+            return new Result(true, "更新成功", avatar);
         }else{
             return new Result(false, "更新失败", null);
         }

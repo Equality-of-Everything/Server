@@ -59,7 +59,8 @@ public class UserLoginServiceImpl implements UserLoginService {
         int resLogin = userLoginMapper.insert(userLogin);
 
         //Integer userId = userLoginMapper.getUserIdByUsername(userLogin);
-        int resInfo = userInfoMapper.insert(new UserInfo(userId, userLogin.getUsername(), userLogin.getAvatar()));
+        int shareInfoId = Objects.hash(UUID.randomUUID().toString());
+        int resInfo = userInfoMapper.insert(new UserInfo(userId, userLogin.getUsername(), userLogin.getAvatar(),shareInfoId));
         if (resLogin > 0 && resInfo > 0)  return true;
 
         return false;

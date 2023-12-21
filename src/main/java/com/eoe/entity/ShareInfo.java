@@ -23,6 +23,7 @@ import java.util.Date;
 public class ShareInfo {
 
     // ID - 唯一标识符
+    @TableId(type = IdType.ASSIGN_UUID)
     @TableField("ID")
     private int id;
 
@@ -77,4 +78,17 @@ public class ShareInfo {
     //vr_image_url - vr地址
     @TableField("vr_image_url")
     private String vrImageUrl;
+
+    public ShareInfo(int id, int userInfoId, int mapInfoId, String videoUrl) {
+        this.id = id;
+        this.userInfoId = userInfoId;
+        this.mapInfoId = mapInfoId;
+        this.videoUrl = videoUrl;
+    }
+
+    public ShareInfo(int shareInfoId, int uuidShareID, String videoUrl) {
+        this.userInfoId = shareInfoId;
+        this.mapInfoId = uuidShareID;
+        this.videoUrl = videoUrl;
+    }
 }

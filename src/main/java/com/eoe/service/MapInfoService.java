@@ -2,6 +2,7 @@ package com.eoe.service;
 
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,10 +31,10 @@ public interface MapInfoService {
 
     /**
      * 插入视频或图文
-     * @param shareInfo
+     * @param
      * @return
      */
-    boolean insertVideo(ShareInfo shareInfo);
+    boolean insertVideo(String city, MultipartFile file,String username);
 
     /**
      * 查询点赞数量

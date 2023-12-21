@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +22,7 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
 
     /**
      * 根据用户和视频id查询是否点赞
+     *
      * @param userId
      * @param videoId
      * @return
@@ -55,4 +55,13 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
      */
     @Select("select count(*) from likes where video_id=#{videoId} and is_liked=1")
     int likeVideoCount(int videoId);
+
+    // 判断地名是否存在
+    @Select("select * from map_info where place_name=#{placeName}")
+    List<MapInfo> judgePlaceName(String placeName);
+
+    // 获取shareInfoId
+    @Select("select share_info_id from map_info where place_name=#{placeName}")
+    Integer getShareInfoIdByPlaceName(String placeName);
+
 }

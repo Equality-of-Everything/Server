@@ -30,8 +30,8 @@ public class UploadFileServiceImpl implements UploadFileService {
                 String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
 
                 // 后缀名限定，只允许上传jpg，png
-                if (!extension.equals(".jpg") && !extension.equals(".png"))
-                    throw new UploadFileFailedException(MessageConstant.InvalidFileFormatException);
+//                if (!extension.equals(".jpg") && !extension.equals(".png"))
+//                    throw new UploadFileFailedException(MessageConstant.InvalidFileFormatException);
 
 
                 //构造新文件名称

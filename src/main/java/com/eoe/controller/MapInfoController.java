@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -44,15 +45,11 @@ public class MapInfoController {
 
     }
 
-    @PostMapping("/insert")
+    @PostMapping("/uploadVideo")
     @ApiOperation("插入视频信息")
-    public Result insertVideo(@RequestBody ShareInfo shareInfo) {
-        boolean flag = mapInfoService.insertVideo(shareInfo);
-        if (flag) {
-            return new Result(true, "插入视频信息成功", null,200);
-        } else {
-            return new Result(false, "插入视频信息失败", null,400);
-        }
+    public Result insertVideo(String city, MultipartFile video,String username) {
+        boolean flag = mapInfoService.insertVideo(city, video, username);
+        return flag? new Result(true, "上传视频成功", null, 200) : new Result(false, "上传视频失败", null, 400);
     }
 
     /**

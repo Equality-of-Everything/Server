@@ -3,15 +3,23 @@ package com.eoe.service.impl;
 import com.eoe.entity.Likes;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
+import com.eoe.exception.MapInfoUpdateFailException;
 import com.eoe.mapper.MapInfoMapper;
 import com.eoe.mapper.ShareInfoMapper;
+import com.eoe.mapper.UserInfoMapper;
 import com.eoe.service.MapInfoService;
+import com.eoe.service.UploadFileService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @Author : Zhang
@@ -20,6 +28,7 @@ import java.util.List;
  */
 
 @Service
+@Slf4j
 public class MapInfoServiceImpl implements MapInfoService {
 
     @Autowired
@@ -60,6 +69,12 @@ public class MapInfoServiceImpl implements MapInfoService {
         return true;
     }
 
+    @Autowired
+    private UploadFileService uploadFileService;
+
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+
     @Override
     public List<ShareInfo> getSourceByPlaceName(MapInfo mapInfo) {
 
@@ -68,12 +83,36 @@ public class MapInfoServiceImpl implements MapInfoService {
         return res;
     }
 
+    @Transactional
     @Override
-    public boolean insertVideo(ShareInfo shareInfo) {
-        shareInfo.setUploadTime(new java.util.Date());
-        int res = shareInfoMapper.insert(shareInfo);
-        return res!=0;
+    public boolean insertVideo(String city, MultipartFile file,String username) {
+        List<MapInfo> mapInfos = mapInfoMapper.judgePlaceName(city);
+        String videoUrl = uploadFileService.uploadFile(file);
+        int shareInfoId = userInfoMapper.getShareInfoIdByUsername(username);
 
+        if (mapInfos.size() == 0) {
+            int uuidID = Objects.hash(UUID.randomUUID().toString());
+            System.out.println("uuidID:"+uuidID);
+            int uuidShareID = Objects.hash(UUID.randomUUID().toString());
+            System.out.println("uuidShareID:"+uuidShareID);
+            MapInfo mapInfo = new MapInfo();
+            mapInfo.setId(uuidID);
+            mapInfo.setPlaceName(city);
+            mapInfo.setShareInfoId(uuidShareID);
+            int flagMapInfo = mapInfoMapper.insert(mapInfo);
+
+            int flagShareInfo = shareInfoMapper.insert(new ShareInfo(uuidID,shareInfoId, uuidShareID, videoUrl));
+
+            if(flagMapInfo == 1 && flagShareInfo == 1) return true;
+            throw new MapInfoUpdateFailException("视频发布失败");
+        }
+
+        Integer shareInfoIdByPlaceName = mapInfoMapper.getShareInfoIdByPlaceName(city);
+        int shareInfoIdOld = Objects.hash(UUID.randomUUID().toString());
+
+        int flag = shareInfoMapper.insert(new ShareInfo(shareInfoIdOld,shareInfoId, shareInfoIdByPlaceName, videoUrl));
+        if(flag == 1) return true;
+        throw new MapInfoUpdateFailException("视频发布失败");
     }
 
     /**
@@ -87,4 +126,6 @@ public class MapInfoServiceImpl implements MapInfoService {
         if(res < 0) throw new RuntimeException("查询点赞数量失败");
         return res;
     }
+
+
 }

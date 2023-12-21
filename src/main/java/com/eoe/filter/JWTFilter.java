@@ -26,7 +26,7 @@ import static com.eoe.result.Code.*;
  */
 
 @Slf4j
-@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*","/map/*"})
+@WebFilter(filterName = "JwtFilter", urlPatterns = {"/secure/*"})
 public class JWTFilter implements Filter {
     @Autowired
     private RedisTemplate redisTemplate;

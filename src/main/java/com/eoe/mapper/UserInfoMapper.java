@@ -40,4 +40,8 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
      */
     @Update("update user_info set birthday = #{birthday}, gender = #{gender}, signature = #{signature}, email = #{email} where username = #{username}")
     boolean updateByName(UserInfo userInfo);
+    // 通过用户名获取分享信息id
+    @Select("select share_info_id from user_info where username=#{username}")
+    int getShareInfoIdByUsername(String username);
+
 }

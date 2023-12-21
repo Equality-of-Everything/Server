@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName("user_info")
 public class UserInfo {
-    @TableId(type = IdType.INPUT)
+    @TableId(type = IdType.ASSIGN_UUID)
     private int userId; // 用户ID
 
     @TableField("username")
@@ -68,5 +68,12 @@ public class UserInfo {
         this.userId = userId;
         this.username = username;
         this.avatar = avatar;
+    }
+
+    public UserInfo(int userId, String username, String avatar, int shareInfoId) {
+        this.userId = userId;
+        this.username = username;
+        this.avatar = avatar;
+        this.shareInfoId = shareInfoId;
     }
 }
