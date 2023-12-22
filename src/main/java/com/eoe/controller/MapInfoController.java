@@ -5,6 +5,7 @@ import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
 import com.eoe.result.Result;
 import com.eoe.service.MapInfoService;
+import com.eoe.service.UserInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,9 @@ public class MapInfoController {
     @Autowired
     private MapInfoService mapInfoService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     /**
      * @param mapInfo
      * @return\
@@ -56,11 +60,12 @@ public class MapInfoController {
     /**
      * 点赞操作
      * @param videoId
-     * @param userId
+     * @param username
      * @return
      */
     @PostMapping("/videos/{videoId}/like")
-    public Result likeVideo(@PathVariable int videoId, @RequestParam int userId) {
+    public Result likeVideo(@PathVariable int videoId, @RequestParam String username) {
+        int userId = userInfoService.getUserIdByUsername(username);
         boolean flag = mapInfoService.likeVideo(userId, videoId);
         if (flag) {
             return new Result(true, "点赞操作成功", null,200);
@@ -93,7 +98,7 @@ public class MapInfoController {
         }else {
             return new Result(false, "评论失败", null, 400);
         }
-    }
+    } 
 
     @GetMapping("/videos/getcomments")
     public Result getComment(@RequestParam int videoId){

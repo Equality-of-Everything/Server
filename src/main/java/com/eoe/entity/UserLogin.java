@@ -61,4 +61,7 @@ public class UserLogin implements Serializable {
     @TableField("login_error_count")
     private Integer loginErrorCount;
 
+    public UserLogin(String username) {
+        this.username = username;
+    }
 }

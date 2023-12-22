@@ -7,6 +7,13 @@ import com.eoe.entity.UserLogin;
 public interface UserInfoService {
 
     /**
+     * 根据username查id
+     * @param username
+     * @return
+     */
+    int getUserIdByUsername(String username);
+
+    /**
      * 获取个人页面数据
      * @param userLogin
      * @return

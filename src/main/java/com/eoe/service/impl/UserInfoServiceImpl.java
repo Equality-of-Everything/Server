@@ -31,6 +31,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     private UserLoginMapper userLoginMapper;
 
+    @Override
+    public int getUserIdByUsername(String username) {
+        int userId = userLoginMapper.getUserIdByUsername(new UserLogin(username));
+        return userId;
+    }
+
     /**
      * 获取个人页面数据
      * @param userLogin
