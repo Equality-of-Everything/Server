@@ -29,6 +29,9 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
     @Insert("INSERT INTO comments(user_id,video_id,comment_text,comment_date) VALUES(#{userId},#{videoId},#{commentText},#{commentDate})")
     boolean commentVideo(Comment comment);
 
+    @Select("select is_liked from likes where user_id=#{userId} and video_id=#{videoId}")
+    int getLikeStatus(int videoId,int userId);
+
     /**
      * 根据用户和视频id查询是否点赞
      *
@@ -47,14 +50,14 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
      * 修改点赞状态
      * @param existingLike
      */
-    @Update("UPDATE Likes SET is_liked = #{isLiked}, timestamp = #{timestamp} WHERE id = #{id}")
+    @Update("UPDATE likes SET is_liked = #{isLiked}, timestamp = #{timestamp} WHERE id = #{id}")
     void saveLikes(Likes existingLike);
 
     /**
      * 插入点赞
      * @param newLike
      */
-    @Insert("INSERT INTO likes(user_id,video_id,is_liked,timestamp) VALUES(#{userId},#{videoId},#{isLiked},#{timestamp})")
+    @Insert("INSERT INTO likes(id,user_id,video_id,is_liked,timestamp) VALUES(#{id},#{userId},#{videoId},#{isLiked},#{timestamp})")
     void insertLikes(Likes newLike);
 
     /**

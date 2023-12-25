@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +40,11 @@ public class MapInfoServiceImpl implements MapInfoService {
     @Autowired
     private ShareInfoMapper shareInfoMapper;
 
+    @Override
+    public boolean getLikeStatus(int videoId,int userId) {
+        return mapInfoMapper.getLikeStatus(videoId,userId) > 0;
+    }
+
     /**
      * 点赞视频
      * @param userId
@@ -55,7 +61,7 @@ public class MapInfoServiceImpl implements MapInfoService {
                 // 用户已经点赞过，取消点赞
                 existingLike.setLiked(false);
                 mapInfoMapper.saveLikes(existingLike);
-                return true;
+                return false;
             }else if (!existingLike.isLiked()) {
                 // 用户还未点赞过，进行点赞
                 existingLike.setLiked(true);
@@ -65,7 +71,7 @@ public class MapInfoServiceImpl implements MapInfoService {
             }
         } else {
             // 用户还未点赞过，进行点赞
-            Likes newLike = new Likes(userId, videoId, true, new Timestamp(System.currentTimeMillis()));
+            Likes newLike = new Likes(UUID.randomUUID().toString().hashCode(),userId, videoId, true, new Timestamp(System.currentTimeMillis()));
             mapInfoMapper.insertLikes(newLike);
         }
         return true;
@@ -87,10 +93,14 @@ public class MapInfoServiceImpl implements MapInfoService {
 
     @Transactional
     @Override
-    public boolean insertVideo(String city, MultipartFile file,String username) {
+    public boolean insertVideo(String city, MultipartFile file,String username,String longitude,String latitude) {
         List<MapInfo> mapInfos = mapInfoMapper.judgePlaceName(city);
         String videoUrl = uploadFileService.uploadFile(file);
         int shareInfoId = userInfoMapper.getShareInfoIdByUsername(username);
+        Double longitude1 = Double.parseDouble(longitude);
+        Double latitude1 = Double.parseDouble(latitude);
+        BigDecimal latitude2 = new BigDecimal(latitude1);
+        BigDecimal longitude2 = new BigDecimal(longitude1);
 
         if (mapInfos.size() == 0) {
             int uuidID = Objects.hash(UUID.randomUUID().toString());
@@ -101,6 +111,8 @@ public class MapInfoServiceImpl implements MapInfoService {
             mapInfo.setId(uuidID);
             mapInfo.setPlaceName(city);
             mapInfo.setShareInfoId(uuidShareID);
+            mapInfo.setLatitude(latitude2);
+            mapInfo.setLongitude(longitude2);
             int flagMapInfo = mapInfoMapper.insert(mapInfo);
 
             int flagShareInfo = shareInfoMapper.insert(new ShareInfo(uuidID,shareInfoId, uuidShareID, videoUrl));

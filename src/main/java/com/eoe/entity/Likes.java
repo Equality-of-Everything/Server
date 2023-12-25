@@ -42,6 +42,14 @@ public class Likes {
         this.timestamp = timestamp;
     }
 
+    public Likes(int id, int userId, int videoId, boolean b, Timestamp timestamp) {
+        this.id = id;
+        this.userId = userId;
+        this.videoId = videoId;
+        this.isLiked = b;
+        this.timestamp = timestamp;
+    }
+
     public void setTimestamp(java.sql.Timestamp timestamp) {
         this.timestamp = timestamp;
     }

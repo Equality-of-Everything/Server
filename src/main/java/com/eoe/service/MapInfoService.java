@@ -16,6 +16,14 @@ import java.util.List;
 public interface MapInfoService {
 
     /**
+     * 获取点赞状态
+     * @param userId
+     * @param videoId
+     * @return
+     */
+    boolean getLikeStatus(int videoId,int userId );
+
+    /**
      * 点赞视频或图文
      * @param userId
      * @param videoId
@@ -35,7 +43,7 @@ public interface MapInfoService {
      * @param
      * @return
      */
-    boolean insertVideo(String city, MultipartFile file,String username);
+    boolean insertVideo(String city, MultipartFile file,String username,String longitude,String latitude);
 
     /**
      * 查询点赞数量
