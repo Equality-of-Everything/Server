@@ -43,8 +43,8 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @return
      */
     @Override
-    public UserInfo getUserInfo(UserLogin userLogin) {
-        UserInfo user = userInfoMapper.getUserInfo(userLogin);
+    public UserInfo getUserInfo(String username) {
+        UserInfo user = userInfoMapper.getUserInfo(username);
         if(user!= null){
             return user;
         }else{

@@ -15,10 +15,10 @@ public interface UserInfoService {
 
     /**
      * 获取个人页面数据
-     * @param userLogin
+     * @param username
      * @return
      */
-    UserInfo getUserInfo(UserLogin userLogin);
+    UserInfo getUserInfo(String username);
 
 
     /**

@@ -31,14 +31,14 @@ public class UserInfoController {
 
     /**
      * 获取个人页面数据的接口
-     * @param userLogin
+     * @param username
      * @return
      */
-    @GetMapping("/getUserInfo")
+    @PostMapping ("/getUserInfo")
     @ApiOperation("获取个人页面数据")
-    public Result getUserInfo(@RequestBody UserLogin userLogin){
+    public Result getUserInfo(String username){
 
-        UserInfo user =  userInfoService.getUserInfo(userLogin);
+        UserInfo user =  userInfoService.getUserInfo(username);
         if(user == null){
             return new Result(false, "用户不存在", null);
         }else{

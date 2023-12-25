@@ -18,8 +18,8 @@ import org.apache.ibatis.annotations.Update;
 @Mapper
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
-    @Select("select * from user_info where user_id = #{userId}")
-    UserInfo getUserInfo(UserLogin userLogin);
+    @Select("select * from user_info where username = #{username}")
+    UserInfo getUserInfo(String username);
 
     @Select("select max(user_id) from user_info")
     Integer getMaxUserId();
