@@ -65,4 +65,11 @@ public interface MapInfoService {
      * @return
      */
     List<Comment> getComment(int videoId);
+
+    /**
+     * 删除评论通过用户名时间，视频iD
+     * @param comment
+     * @return
+     */
+    boolean deleteVideoCommentByUsernameAndVideoIdAndCommentDate(Comment comment);
 }

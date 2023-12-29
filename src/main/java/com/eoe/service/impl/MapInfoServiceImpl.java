@@ -1,15 +1,15 @@
 package com.eoe.service.impl;
 
-import com.eoe.entity.Comment;
-import com.eoe.entity.Likes;
-import com.eoe.entity.MapInfo;
-import com.eoe.entity.ShareInfo;
+import com.eoe.entity.*;
+import com.eoe.exception.GetVideoLikesStatusException;
 import com.eoe.exception.MapInfoUpdateFailException;
 import com.eoe.mapper.MapInfoMapper;
 import com.eoe.mapper.ShareInfoMapper;
 import com.eoe.mapper.UserInfoMapper;
+import com.eoe.mapper.UserLoginMapper;
 import com.eoe.service.MapInfoService;
 import com.eoe.service.UploadFileService;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,13 @@ public class MapInfoServiceImpl implements MapInfoService {
     @Autowired
     private ShareInfoMapper shareInfoMapper;
 
+    @Autowired
+    private UserLoginMapper userLoginMapper;
+
     @Override
     public boolean getLikeStatus(int videoId,int userId) {
+        Integer likeStatus = mapInfoMapper.getLikeStatus(videoId, userId);
+        if(likeStatus == null) throw new GetVideoLikesStatusException("获取点赞状态失败");
         return mapInfoMapper.getLikeStatus(videoId,userId) > 0;
     }
 
@@ -101,6 +106,7 @@ public class MapInfoServiceImpl implements MapInfoService {
         Double latitude1 = Double.parseDouble(latitude);
         BigDecimal latitude2 = new BigDecimal(latitude1);
         BigDecimal longitude2 = new BigDecimal(longitude1);
+        int commentUUID = Objects.hash(UUID.randomUUID().toString());
 
         if (mapInfos.size() == 0) {
             int uuidID = Objects.hash(UUID.randomUUID().toString());
@@ -115,7 +121,7 @@ public class MapInfoServiceImpl implements MapInfoService {
             mapInfo.setLongitude(longitude2);
             int flagMapInfo = mapInfoMapper.insert(mapInfo);
 
-            int flagShareInfo = shareInfoMapper.insert(new ShareInfo(uuidID,shareInfoId, uuidShareID, videoUrl));
+            int flagShareInfo = shareInfoMapper.insert(new ShareInfo(uuidID,shareInfoId, uuidShareID, videoUrl,commentUUID));
 
             if(flagMapInfo == 1 && flagShareInfo == 1) return true;
             throw new MapInfoUpdateFailException("视频发布失败");
@@ -124,7 +130,7 @@ public class MapInfoServiceImpl implements MapInfoService {
         Integer shareInfoIdByPlaceName = mapInfoMapper.getShareInfoIdByPlaceName(city);
         int shareInfoIdOld = Objects.hash(UUID.randomUUID().toString());
 
-        int flag = shareInfoMapper.insert(new ShareInfo(shareInfoIdOld,shareInfoId, shareInfoIdByPlaceName, videoUrl));
+        int flag = shareInfoMapper.insert(new ShareInfo(shareInfoIdOld,shareInfoId, shareInfoIdByPlaceName, videoUrl,commentUUID));
         if(flag == 1) return true;
         throw new MapInfoUpdateFailException("视频发布失败");
     }
@@ -148,7 +154,19 @@ public class MapInfoServiceImpl implements MapInfoService {
      */
     @Override
     public boolean commentVideo(Comment comment) {
-        comment.setCommentDate(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
+        comment.setCommentDate(new Timestamp(System.currentTimeMillis())+"");
+        comment.setCommentTime(new Timestamp(System.currentTimeMillis())+"");
+        comment.setId(UUID.randomUUID().toString().hashCode());
+
+        // 1代表视频评论
+        comment.setType("1");
+
+        Integer commentId = mapInfoMapper.getCommentIdFromShareInfo(comment.getVideoId());
+        comment.setShareInfoId(commentId);
+        Integer userId = userLoginMapper.getUserIdByUsername(new UserLogin(comment.getUsername()));
+        comment.setUserId(userId);
+        String avatar = userInfoMapper.getAvatarByUsername(comment.getUsername());
+        comment.setAvatar(avatar);
         boolean res = mapInfoMapper.commentVideo(comment);
         if(res) return true;
         return false;
@@ -163,5 +181,10 @@ public class MapInfoServiceImpl implements MapInfoService {
     public List<Comment> getComment(int videoId) {
         List<Comment> res = mapInfoMapper.getComment(videoId);
         return res;
+    }
+
+    @Override
+    public boolean deleteVideoCommentByUsernameAndVideoIdAndCommentDate(Comment comment) {
+        return mapInfoMapper.deleteVideoCommentByUsernameAndVideoIdAndCommentDate(comment) > 0;
     }
 }

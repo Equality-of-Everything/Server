@@ -79,11 +79,12 @@ public class ShareInfo {
     @TableField("vr_image_url")
     private String vrImageUrl;
 
-    public ShareInfo(int id, int userInfoId, int mapInfoId, String videoUrl) {
+    public ShareInfo(int id, int userInfoId, int mapInfoId, String videoUrl,int commentId) {
         this.id = id;
         this.userInfoId = userInfoId;
         this.mapInfoId = mapInfoId;
         this.videoUrl = videoUrl;
+        this.commentId = commentId;
     }
 
     public ShareInfo(int shareInfoId, int uuidShareID, String videoUrl) {

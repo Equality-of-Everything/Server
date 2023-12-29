@@ -1,9 +1,6 @@
 package com.eoe.advice;
 
-import com.eoe.exception.MapInfoUpdateFailException;
-import com.eoe.exception.RegisterFailException;
-import com.eoe.exception.UserInfoUpdateAvatarException;
-import com.eoe.exception.UserInfoUpdateException;
+import com.eoe.exception.*;
 import com.eoe.result.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,6 +31,11 @@ public class ProjectExceptionAdvice {
 
     @ExceptionHandler(MapInfoUpdateFailException.class)
     public Result handleMapInfoException(MapInfoUpdateFailException e) {
+        return new Result(false, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(GetVideoLikesStatusException.class)
+    public Result handleException(Exception e) {
         return new Result(false, e.getMessage(), null);
     }
 }

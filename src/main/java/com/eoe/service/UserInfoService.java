@@ -36,4 +36,6 @@ public interface UserInfoService {
      * @return
      */
     boolean updateByName(UserInfo userInfo);
+
+    String getAvatarByShareInfoId(int shareInfoId);
 }

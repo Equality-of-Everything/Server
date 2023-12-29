@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
@@ -28,7 +29,7 @@ public class Comment {
     private int userId; // 评论用户ID
 
     @TableField("comment_time")
-    private LocalDateTime commentTime; // 评论时间
+    private String commentTime; // 评论时间
 
     @TableField("video_id")
     private int videoId; // 视频ID
@@ -37,6 +38,12 @@ public class Comment {
     private String commentText; // 评论内容
 
     @TableField("comment_date")
-    private LocalDateTime commentDate; // 评论时间
+    private String commentDate; // 评论时间
+
+    @TableField("username")
+    private String username;
+
+    @TableField("avatar")
+    private String avatar;
 
 }

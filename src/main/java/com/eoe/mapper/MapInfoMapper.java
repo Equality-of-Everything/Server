@@ -5,10 +5,8 @@ import com.eoe.entity.Comment;
 import com.eoe.entity.Likes;
 import com.eoe.entity.MapInfo;
 import com.eoe.entity.ShareInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.javassist.runtime.Inner;
 
 import java.util.List;
 
@@ -21,16 +19,23 @@ import java.util.List;
 @Mapper
 public interface MapInfoMapper extends BaseMapper<MapInfo> {
 
+    // 删除评论
+    @Delete("delete from comments where username = #{username} and video_id = #{videoId} and comment_date=#{commentDate}")
+    Integer deleteVideoCommentByUsernameAndVideoIdAndCommentDate(Comment comment);
+
+    @Select("select comment_id from share_info where id=#{videoId}")
+    Integer getCommentIdFromShareInfo(int videoId);
+
+    @Select("select is_liked from likes where user_id=#{userId} and video_id=#{videoId}")
+    Integer getLikeStatus(int videoId, int userId);
+
     /**
      * 评论视频
      * @param comment
      * @return
      */
-    @Insert("INSERT INTO comments(user_id,video_id,comment_text,comment_date) VALUES(#{userId},#{videoId},#{commentText},#{commentDate})")
+    @Insert("INSERT INTO comments(id,share_info_id,comment_text,avatar,type,friend_share_id,user_id,comment_time,video_id,comment_date,username) VALUES(#{id},#{shareInfoId},#{commentText},#{avatar},#{type},#{friendShareId},#{userId},#{commentTime},#{videoId},#{commentDate},#{username})")
     boolean commentVideo(Comment comment);
-
-    @Select("select is_liked from likes where user_id=#{userId} and video_id=#{videoId}")
-    int getLikeStatus(int videoId,int userId);
 
     /**
      * 根据用户和视频id查询是否点赞
@@ -82,5 +87,5 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
      * @return
      */
     @Select("select * from comments where video_id=#{videoId}")
-    List<Comment> getComment(int videoId);
+    List<Comment> getComment(Integer videoId);
 }

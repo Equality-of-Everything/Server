@@ -44,4 +44,11 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     @Select("select share_info_id from user_info where username=#{username}")
     int getShareInfoIdByUsername(String username);
 
+    // 通过用户名获取头像
+    @Select("select avatar from user_info where username=#{username}")
+    String getAvatarByUsername(String username);
+
+    @Select("select avatar from share_info where share_info_id=#{shareInfoId}")
+    String getAvatarByShareInfoId(int shareInfoId);
+
 }

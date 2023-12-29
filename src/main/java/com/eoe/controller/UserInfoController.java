@@ -81,6 +81,16 @@ public class UserInfoController {
         }
     }
 
+    @GetMapping("/getAvatarByShareInfoId")
+    public Result getAvatarByShareInfoId(int shareInfoId){
+        String avatar = "";
+        avatar = userInfoService.getAvatarByShareInfoId(shareInfoId);
+        if(avatar.length()==0){
+            return new Result(false, "发生未知错误，请稍后重试", null);
+        }else{
+            return new Result(true, "获取成功", avatar);
+        }
+    }
 
 
 
