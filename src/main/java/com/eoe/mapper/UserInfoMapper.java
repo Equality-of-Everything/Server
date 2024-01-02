@@ -48,7 +48,10 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     @Select("select avatar from user_info where username=#{username}")
     String getAvatarByUsername(String username);
 
-    @Select("select avatar from share_info where share_info_id=#{shareInfoId}")
+    @Select("select avatar from user_info where share_info_id=#{shareInfoId}")
     String getAvatarByShareInfoId(int shareInfoId);
+
+    @Select("select username from user_info where share_info_id=#{shareInfoId}")
+    String getUsernameByShareInfoId(int shareInfoId);
 
 }

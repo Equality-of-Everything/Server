@@ -38,4 +38,11 @@ public interface UserInfoService {
     boolean updateByName(UserInfo userInfo);
 
     String getAvatarByShareInfoId(int shareInfoId);
+
+    /**
+     * 通过分享id获取用户名
+     * @param shareInfoId
+     * @return
+     */
+    String getUsernameByShareInfoId(int shareInfoId);
 }

@@ -72,4 +72,7 @@ public interface MapInfoService {
      * @return
      */
     boolean deleteVideoCommentByUsernameAndVideoIdAndCommentDate(Comment comment);
+
+    // 通过用户名去获取他在哪发布的视频
+    List<String> getPlaceNameByUsername(String username);
 }

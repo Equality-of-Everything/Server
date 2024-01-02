@@ -187,4 +187,10 @@ public class MapInfoServiceImpl implements MapInfoService {
     public boolean deleteVideoCommentByUsernameAndVideoIdAndCommentDate(Comment comment) {
         return mapInfoMapper.deleteVideoCommentByUsernameAndVideoIdAndCommentDate(comment) > 0;
     }
+
+    @Override
+    public List<String> getPlaceNameByUsername(String username) {
+        List<String> res = mapInfoMapper.getPlaceNameByUsername(username);
+        return res;
+    }
 }

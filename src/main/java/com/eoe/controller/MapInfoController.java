@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.eoe.result.Code.*;
@@ -113,6 +114,7 @@ public class MapInfoController {
         }
     }
 
+    // 获取视频的所有评论
     @GetMapping("/videos/getComments")
     public Result getComment(Integer videoId) {
         try {
@@ -125,11 +127,21 @@ public class MapInfoController {
         }
     }
 
+    // 删除评论
     @DeleteMapping("/videos/delComment")
     public Result delComment(@RequestBody Comment comment) {
         boolean flag = mapInfoService.deleteVideoCommentByUsernameAndVideoIdAndCommentDate(comment);
         if(flag) return new Result(true, "删除评论成功", null, 200);
         return new Result(false, "删除评论失败，请稍后重试", null, 400);
+    }
+
+    // 通过用户名获取地方名
+    @GetMapping("/getPlaceName")
+    public Result getPlaceNameByUsername(String username) {
+        List<String> res = new ArrayList<>();
+        res = mapInfoService.getPlaceNameByUsername(username);
+        if(res.size()==0) return new Result(false, "为查询到相关记录", null, 400);
+        return new Result(true, "查询成功", res, 200);
     }
 }
 

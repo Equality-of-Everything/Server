@@ -98,5 +98,15 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfoMapper.getAvatarByShareInfoId(shareInfoId);
     }
 
+    /**
+     * 通过ShareInfoId获取用户名
+     * @param shareInfoId
+     * @return
+     */
+    @Override
+    public String getUsernameByShareInfoId(int shareInfoId) {
+        return userInfoMapper.getUsernameByShareInfoId(shareInfoId);
+    }
+
 
 }

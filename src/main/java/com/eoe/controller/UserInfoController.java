@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserInfoController {
 
 
-
     @Autowired
     private UserInfoService userInfoService;
 
@@ -31,67 +30,73 @@ public class UserInfoController {
 
     /**
      * 获取个人页面数据的接口
+     *
      * @param username
      * @return
      */
-    @PostMapping ("/getUserInfo")
+    @PostMapping("/getUserInfo")
     @ApiOperation("获取个人页面数据")
-    public Result getUserInfo(String username){
+    public Result getUserInfo(String username) {
 
-        UserInfo user =  userInfoService.getUserInfo(username);
-        if(user == null){
+        UserInfo user = userInfoService.getUserInfo(username);
+        if (user == null) {
             return new Result(false, "用户不存在", null);
-        }else{
+        } else {
             return new Result(true, "获取成功", user);
         }
     }
 
     /**
      * 更新个人页面数据
+     *
      * @param username
-     * @return
-     * 只用于更新用户头像
+     * @return 只用于更新用户头像
      */
     @PostMapping("/setUserAvatar")
     @ApiOperation("更新用户头像")
-    public Result setUserInfoAvatar(@RequestParam String username, @RequestParam MultipartFile file){
+    public Result setUserInfoAvatar(@RequestParam String username, @RequestParam MultipartFile file) {
 
         String avatar = uploadFileService.uploadFile(file);
-        boolean flag = userInfoService.setUserAvatarByUsername(username,avatar);
-        if(flag){
+        boolean flag = userInfoService.setUserAvatarByUsername(username, avatar);
+        if (flag) {
             return new Result(true, "更新成功", avatar);
-        }else{
+        } else {
             return new Result(false, "更新失败", null);
         }
     }
+
     /**
      * 更新个人页面数据
+     *
      * @param userInfo
-     * @return
-     * 只用于更新用户资料
+     * @return 只用于更新用户资料
      */
     @PostMapping("/setUserInformation")
     @ApiOperation("更新用户资料")
-    public  Result updateUserInformation(@RequestBody UserInfo userInfo){
+    public Result updateUserInformation(@RequestBody UserInfo userInfo) {
         boolean flag = userInfoService.updateByName(userInfo);
-        if(flag){
+        if (flag) {
             return new Result(true, "更新成功", null);
-        }else{
+        } else {
             return new Result(false, "更新失败", null);
         }
     }
 
-    @GetMapping("/getAvatarByShareInfoId")
-    public Result getAvatarByShareInfoId(int shareInfoId){
+    @GetMapping("/getAvatar/{shareInfoId}")
+    public Result getAvatarByShareInfoId(@PathVariable int shareInfoId) {
         String avatar = "";
         avatar = userInfoService.getAvatarByShareInfoId(shareInfoId);
-        if(avatar.length()==0){
+        if (avatar.length() == 0) {
             return new Result(false, "发生未知错误，请稍后重试", null);
-        }else{
+        } else {
             return new Result(true, "获取成功", avatar);
         }
     }
 
-
-
+    @GetMapping("/getUsername")
+    public Result getUsernameByShareInfoId(int shareInfoId) {
+        String username = userInfoService.getUsernameByShareInfoId(shareInfoId);
+        if(username!=null) return new Result(true, "获取用户名成功", username);
+        return new Result(false, "获取用户名失败", null);
+    }
 }

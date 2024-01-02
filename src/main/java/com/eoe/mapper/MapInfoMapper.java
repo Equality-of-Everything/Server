@@ -88,4 +88,10 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
      */
     @Select("select * from comments where video_id=#{videoId}")
     List<Comment> getComment(Integer videoId);
+
+    // 通过用户名去查询地点名，三张表联查，user_info(share_info_id),share_info(user_info_id,map_info_id),map_info(share_info_id)
+    @Select("select place_name from map_info where share_info_id in " +
+            "(select distinct map_info_id from share_info where user_info_id=" +
+            "(select share_info_id from user_info where username=#{username}));")
+    List<String> getPlaceNameByUsername(String username);
 }
