@@ -17,8 +17,8 @@ public interface FriendShareMapper extends BaseMapper<FriendShare> {
      * @param friendShare
      * @return
      */
-    @Insert("INSERT INTO friend_share (user_info_id, text_content, like_count,like_user_id,image_library_id) " +
-            "VALUES (#{userInfoId}, #{textContent},#{likeCount}, #{likeUserId}, #{image_library_id})")
+    @Insert("INSERT INTO friend_share (user_info_id, text_content, like_count,like_user_id,image_library_id, comment_time) " +
+            "VALUES (#{userInfoId}, #{textContent},#{likeCount}, #{likeUserId}, #{image_library_id}, #{commentTime})")
     int insert(FriendShare friendShare);
 
     /**

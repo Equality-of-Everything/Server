@@ -35,6 +35,7 @@ public class FriendShareServiceImpl implements FriendShareService {
 
         int id = friendShareMapper.getShareId(username);
         friendShare.setUserInfoId(id);
+        friendShare.setCommentTime(new Timestamp(System.currentTimeMillis()).toLocalDateTime());
         int uuidShareID = Objects.hash(UUID.randomUUID().toString());
         friendShare.setImage_library_id(uuidShareID);
         friendShareMapper.insert(friendShare);

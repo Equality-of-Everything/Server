@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -48,10 +48,14 @@ public class FriendShare {
 
     // 评论时间
     @TableField("comment_time")
-    private Date commentTime;
+    private LocalDateTime commentTime;
     // 关联friend_share的id
 
     @TableField("friend_share_id")
     private int image_library_id;
 
+    public void setCommentTime(LocalDateTime localDateTime) {
+        this.commentTime = localDateTime;
+
+    }
 }
