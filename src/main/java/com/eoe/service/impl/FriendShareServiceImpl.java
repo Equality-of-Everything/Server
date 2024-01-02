@@ -1,5 +1,6 @@
 package com.eoe.service.impl;
 
+import cn.hutool.db.PageResult;
 import com.eoe.entity.FriendShare;
 import com.eoe.entity.ImageLibrary;
 import com.eoe.mapper.FriendShareMapper;
@@ -30,8 +31,10 @@ public class FriendShareServiceImpl implements FriendShareService {
      * @return
      */
     @Override
-    public boolean uploadFriendShare(FriendShare friendShare, MultipartFile[] files) {
+    public boolean uploadFriendShare(FriendShare friendShare,String username, MultipartFile[] files) {
 
+        int id = friendShareMapper.getShareId(username);
+        friendShare.setUserInfoId(id);
         int uuidShareID = Objects.hash(UUID.randomUUID().toString());
         friendShare.setImage_library_id(uuidShareID);
         friendShareMapper.insert(friendShare);
@@ -47,5 +50,16 @@ public class FriendShareServiceImpl implements FriendShareService {
         return true;
     }
 
+    @Override
+    public boolean deleteFriendShare(int id) {
+        int imageLibraryId = friendShareMapper.selectById(id).getImage_library_id();
+      //  friendShareMapper.deleteImageLibraryById(imageLibraryId);
+        return false;
 
+    }
+
+    @Override
+    public PageResult getFriendShareList() {
+        return null;
+    }
 }

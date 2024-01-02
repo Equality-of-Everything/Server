@@ -6,6 +6,7 @@ import com.eoe.entity.FriendShare;
 import com.eoe.entity.ImageLibrary;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 
 @Mapper
@@ -27,4 +28,12 @@ public interface FriendShareMapper extends BaseMapper<FriendShare> {
     @Insert("INSERT INTO image_library (image_url, upload_time, friend_share_id) " +
             "VALUES (#{imageUrl}, #{uploadTime}, #{friendShareId})")
     void insertvideo(ImageLibrary imageLibrary);
+
+    /**
+     * 根据姓名查询分享id
+     * @param username
+     * @return
+     */
+    @Select("select friend_share_id from user_info where username = #{username}")
+    int getShareId(String username);
 }
