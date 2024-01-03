@@ -66,6 +66,36 @@ public class UserInfoController {
     }
 
     /**
+     * 更新背景图片数据
+     * @param username
+     * @param file
+     * @return
+     */
+    @PostMapping("/setUserBackgroundImage")
+    @ApiOperation("更新用户背景图片")
+    public Result setUserInfoBackgroundImage(@RequestParam String username, @RequestParam MultipartFile file) {
+
+        String backgroundImage = uploadFileService.uploadFile(file);
+        boolean flag = userInfoService.setUserBackgroundImageByUsername(username, backgroundImage);
+        if (flag) {
+            return new Result(true, "更新成功", backgroundImage);
+        } else {
+            return new Result(false, "更新失败", null);
+        }
+    }
+
+    @GetMapping("/getBackgroundImage")
+    public Result getBackgroundImageByShareInfoId(@RequestParam String username) {
+        String backgroundImage = "";
+        backgroundImage = userInfoService.getBackgroundImageByUsername(username);
+        if (backgroundImage.length() == 0) {
+            return new Result(false, "发生未知错误，请稍后重试", null);
+        } else {
+            return new Result(true, "获取成功", backgroundImage);
+        }
+    }
+
+    /**
      * 更新个人页面数据
      *
      * @param userInfo

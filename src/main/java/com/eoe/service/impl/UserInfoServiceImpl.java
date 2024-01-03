@@ -39,7 +39,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     /**
      * 获取个人页面数据
-     * @param userLogin
+     * @param username
      * @return
      */
     @Override
@@ -106,6 +106,21 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public String getUsernameByShareInfoId(int shareInfoId) {
         return userInfoMapper.getUsernameByShareInfoId(shareInfoId);
+    }
+
+    @Override
+    public boolean setUserBackgroundImageByUsername(String username, String backgroundImage) {
+        return userInfoMapper.setUserBackgroundImageByUsername(username, backgroundImage) > 0;
+    }
+
+    /**
+     * 根据姓名查找背景图片
+     * @param username
+     * @return
+     */
+    @Override
+    public String getBackgroundImageByUsername(String username) {
+        return userInfoMapper.getBackgroundImageByUsername(username);
     }
 
 

@@ -54,4 +54,9 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     @Select("select username from user_info where share_info_id=#{shareInfoId}")
     String getUsernameByShareInfoId(int shareInfoId);
 
+    @Update("update user_info set backgroundImage = #{backgroundImage} where username = #{username}")
+    int setUserBackgroundImageByUsername(String username, String backgroundImage);
+
+    @Select("select backgroundImage from user_info where username=#{username}")
+    String getBackgroundImageByUsername(String username);
 }

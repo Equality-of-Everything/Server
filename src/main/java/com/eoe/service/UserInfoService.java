@@ -45,4 +45,19 @@ public interface UserInfoService {
      * @return
      */
     String getUsernameByShareInfoId(int shareInfoId);
+
+    /**
+     * 更新背景图片
+     * @param username
+     * @param backgroundImage
+     * @return
+     */
+    boolean setUserBackgroundImageByUsername(String username, String backgroundImage);
+
+    /**
+     * 根据姓名查找背景图片
+     * @param username
+     * @return
+     */
+    String getBackgroundImageByUsername(String username);
 }
