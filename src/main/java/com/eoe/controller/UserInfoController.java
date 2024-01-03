@@ -75,6 +75,7 @@ public class UserInfoController {
     @ApiOperation("更新用户背景图片")
     public Result setUserInfoBackgroundImage(@RequestParam String username, @RequestParam MultipartFile file) {
 
+        System.out.println(username);
         String backgroundImage = uploadFileService.uploadFile(file);
         boolean flag = userInfoService.setUserBackgroundImageByUsername(username, backgroundImage);
         if (flag) {
@@ -84,11 +85,12 @@ public class UserInfoController {
         }
     }
 
-    @GetMapping("/getBackgroundImage")
+    @PostMapping("/getBackgroundImage")
     public Result getBackgroundImageByShareInfoId(@RequestParam String username) {
         String backgroundImage = "";
         backgroundImage = userInfoService.getBackgroundImageByUsername(username);
-        if (backgroundImage.length() == 0) {
+        if (backgroundImage.length()
+                == 0) {
             return new Result(false, "发生未知错误，请稍后重试", null);
         } else {
             return new Result(true, "获取成功", backgroundImage);
