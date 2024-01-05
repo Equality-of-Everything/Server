@@ -94,6 +94,7 @@ public class MapInfoController {
         int userId = userInfoService.getUserIdByUsername(username);
         boolean flag = mapInfoService.getLikeStatus(videoId, userId);
         System.out.println("flag:" + flag);
+        log.error("flag",flag);
         if (flag) return new Result(true, "查询成功", likecount, VIDEO_HAS_LIKED);
         return new Result(true, "查询成功", likecount, VIDEO_NOT_LIKED);
     }

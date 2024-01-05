@@ -23,10 +23,10 @@ import java.io.ByteArrayInputStream;
 public class AliOssUtil {
 
     // 最大图片文件大小位10MB
-    private static final int IMG_MAX_FILE_SIZE = 1024 * 1024 * 10; // 10MB
+    private static final int IMG_MAX_FILE_SIZE = 1024 * 1024 * 100; // 10MB
 
     // 最大视频文件
-    private static final int VIED_MAX_FILE_SIZE   = 1024 * 1024 * 50; // 100MB
+    private static final int VIED_MAX_FILE_SIZE   = 1024 * 1024 * 100; // 100MB
 
     private String endpoint;
     private String accessKeyId;

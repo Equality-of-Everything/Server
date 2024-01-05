@@ -7,7 +7,7 @@ spring:
   servlet:
     multipart:
       max-request-size: 100MB
-      max-file-size: 20MB
+      max-file-size: 100MB
       enabled: true
   mvc:
     pathmatch:
@@ -22,8 +22,6 @@ spring:
     port: 6379
     password: 123456
     client-type: lettuce
-
-
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -37,3 +35,6 @@ alioss:
   access-key-id: LTAI5tQYyUVYWuiZUiwra5d4
   access-key-secret: 7RBZ4i2ZPkOFWkPLO8pb3lKC94dcai
   bucket-name: qiwusky
+server:
+  tomcat:
+    max-http-form-post-size: 100MB

@@ -108,6 +108,10 @@ public class MapInfoServiceImpl implements MapInfoService {
         BigDecimal longitude2 = new BigDecimal(longitude1);
         int commentUUID = Objects.hash(UUID.randomUUID().toString());
 
+        Likes newLikes = new Likes();
+        newLikes.setId(UUID.randomUUID().toString().hashCode());
+
+
         if (mapInfos.size() == 0) {
             int uuidID = Objects.hash(UUID.randomUUID().toString());
             System.out.println("uuidID:"+uuidID);
@@ -121,7 +125,14 @@ public class MapInfoServiceImpl implements MapInfoService {
             mapInfo.setLongitude(longitude2);
             int flagMapInfo = mapInfoMapper.insert(mapInfo);
 
-            int flagShareInfo = shareInfoMapper.insert(new ShareInfo(uuidID,shareInfoId, uuidShareID, videoUrl,commentUUID));
+            int flagShareInfo = shareInfoMapper.insert(new ShareInfo(uuidID, shareInfoId, uuidShareID, videoUrl, commentUUID));
+
+            // 插入Likes
+            newLikes.setVideoId(uuidID);
+            newLikes.setUserId(userLoginMapper.getUserIdByUsername(new UserLogin(username)));
+            newLikes.setTimestamp(new Timestamp(System.currentTimeMillis()));
+            newLikes.setLiked(false);
+            mapInfoMapper.insertLikes(newLikes);
 
             if(flagMapInfo == 1 && flagShareInfo == 1) return true;
             throw new MapInfoUpdateFailException("视频发布失败");
@@ -129,6 +140,12 @@ public class MapInfoServiceImpl implements MapInfoService {
 
         Integer shareInfoIdByPlaceName = mapInfoMapper.getShareInfoIdByPlaceName(city);
         int shareInfoIdOld = Objects.hash(UUID.randomUUID().toString());
+
+        newLikes.setVideoId(shareInfoIdOld);
+        newLikes.setUserId(userLoginMapper.getUserIdByUsername(new UserLogin(username)));
+        newLikes.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        newLikes.setLiked(false);
+        mapInfoMapper.insertLikes(newLikes);
 
         int flag = shareInfoMapper.insert(new ShareInfo(shareInfoIdOld,shareInfoId, shareInfoIdByPlaceName, videoUrl,commentUUID));
         if(flag == 1) return true;

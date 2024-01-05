@@ -71,7 +71,7 @@ public interface MapInfoMapper extends BaseMapper<MapInfo> {
      * @return
      */
     @Select("select count(*) from likes where video_id=#{videoId} and is_liked=1")
-    int likeVideoCount(int videoId);
+    Integer likeVideoCount(int videoId);
 
     // 判断地名是否存在
     @Select("select * from map_info where place_name=#{placeName}")

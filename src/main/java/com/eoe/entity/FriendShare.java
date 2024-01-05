@@ -51,8 +51,8 @@ public class FriendShare {
     private LocalDateTime commentTime;
     // 关联friend_share的id
 
-    @TableField("friend_share_id")
-    private int image_library_id;
+    @TableField("image_library_id")
+    private int imageLibraryId;
 
     public void setCommentTime(LocalDateTime localDateTime) {
         this.commentTime = localDateTime;

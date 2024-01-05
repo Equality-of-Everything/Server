@@ -1,10 +1,12 @@
 package com.eoe;
 
+import com.eoe.mapper.FriendShareMapper;
 import com.eoe.mapper.UserLoginMapper;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.ByteArrayInputStream;
@@ -14,6 +16,14 @@ class EqualityOfEverythingApplicationTests {
 
     @Autowired
     private UserLoginMapper userLoginMapper;
+
+    @Autowired
+    private FriendShareMapper friendShareMapper;
+
+    @Test
+    void testFriendShare() {
+        System.out.println(friendShareMapper.getFriendShareList(0, 10));
+    }
 
 
     @Test

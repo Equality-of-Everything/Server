@@ -1,6 +1,7 @@
 package com.eoe.controller;
 
 import cn.hutool.db.PageResult;
+import com.eoe.entity.FriendCircleItem;
 import com.eoe.entity.FriendShare;
 import com.eoe.result.Result;
 import com.eoe.service.FriendShareService;
@@ -11,8 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 @RestController
-@RequestMapping("/friendshare")
+@RequestMapping("/friendShare")
 @Slf4j
 @Api(tags = "朋友圈相关接口")
 public class FriendShareController {
@@ -26,10 +31,9 @@ public class FriendShareController {
 
         boolean flag = friendShareService.uploadFriendShare(friendShare, username, files);
         if (flag) {
-            return new Result(true, "朋友圈上传成功", null);
-        } else {
-            return new Result(false, "朋友圈上传失败", null);
+            return new Result(true, "朋友圈发布成功", null);
         }
+        return new Result(false, "朋友圈发布失败", null);
 
     }
 
@@ -50,14 +54,13 @@ public class FriendShareController {
     }
 
 
-    public Result getFriendShareList(){
-
-        PageResult pageResult = friendShareService.getFriendShareList();
-        return new Result(true,"获取成功",pageResult);
-
+    @GetMapping("/getFriendShare")
+    public Result getFriendShareList(int page, int size) {
+        List<FriendCircleItem> res = new ArrayList<>();
+        res = friendShareService.getFriendShareList(page, size);
+        if(res.size() > 0) return new Result(true,"获取成功",res);
+        return new Result(false,"获取失败",null);
     }
-
-
 
 
 }

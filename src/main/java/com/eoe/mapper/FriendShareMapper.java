@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 
 @Mapper
 public interface FriendShareMapper extends BaseMapper<FriendShare> {
@@ -18,7 +20,7 @@ public interface FriendShareMapper extends BaseMapper<FriendShare> {
      * @return
      */
     @Insert("INSERT INTO friend_share (user_info_id, text_content, like_count,like_user_id,image_library_id, comment_time) " +
-            "VALUES (#{userInfoId}, #{textContent},#{likeCount}, #{likeUserId}, #{image_library_id}, #{commentTime})")
+            "VALUES (#{userInfoId}, #{textContent},#{likeCount}, #{likeUserId}, #{imageLibraryId}, #{commentTime})")
     int insert(FriendShare friendShare);
 
     /**
@@ -36,4 +38,11 @@ public interface FriendShareMapper extends BaseMapper<FriendShare> {
      */
     @Select("select friend_share_id from user_info where username = #{username}")
     int getShareId(String username);
+
+    // 分页查询获取朋友圈的分享
+    @Select("select * from friend_share order by comment_time desc limit #{page},#{size}")
+    List<FriendShare> getFriendShareList(int page, int size);
+
+    @Select("select image_url from image_library where friend_share_id=#{friendShareId}")
+    List<String> getImageUrlByFriendShareId(int friendShareId);
 }

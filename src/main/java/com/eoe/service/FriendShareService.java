@@ -2,8 +2,11 @@ package com.eoe.service;
 
 
 import cn.hutool.db.PageResult;
+import com.eoe.entity.FriendCircleItem;
 import com.eoe.entity.FriendShare;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface FriendShareService {
 
@@ -27,4 +30,7 @@ public interface FriendShareService {
      * @return
      */
     PageResult getFriendShareList();
+
+
+    List<FriendCircleItem> getFriendShareList(int page, int size);
 }
